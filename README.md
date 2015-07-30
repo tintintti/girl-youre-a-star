@@ -1,1 +1,3 @@
-# girl-youre-a-star
+# Girl you're A*
+
+Tietorakenteet ja algoritmit -harjoitustyö
