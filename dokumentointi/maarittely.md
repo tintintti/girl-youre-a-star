@@ -1,18 +1,21 @@
 #Määrittelydokumentti
 
-Lyhimmän reitin etsiminen labyrintistä ulos A*-algoritmilla.
+Lyhimmän reitin etsiminen labyrintissä kahden pisteen välillä Dijkstran ja A*-algoritmilla. Prioriteettilistan toteuttaminen binäärikeon ja fibonacci-keon avulla sekä näiden vertailu.
 
 **Käytettävät tietorakenteet**
-- A* aputietorakenteina
- - minimikeko ja
+- A* ja Dijkstran aputietorakenteina
+ - prioriteettilista toteutettuna
+   - binäärikeolla ja
+   - fibonacci-keolla
  - pino
 - Verkon tallentamiseen 
  - linkitetty lista
 
 
 **Syötteet**
-- ascii-labyrintti
+- labyrintti numeroina: 0-8 esittää maaston vaikeakulkuisuuden tasoa, 9 tarkoittaa seinää jonka läpi ei voi kulkea
  - muutetaan vieruslistaesitykseksi verkosta
+- reitin aloitus- ja lopetuspisteet
 
 **Aika- ja tilavaativuustavoitteet**
 - *A**

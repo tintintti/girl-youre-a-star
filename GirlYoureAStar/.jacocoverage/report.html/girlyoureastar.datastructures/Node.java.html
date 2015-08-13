@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Node.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;GirlYoureAStar&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">girlyoureastar.datastructures</a> &gt; <span class="el_source">Node.java</span></div><h1>Node.java</h1><pre class="source lang-java linenums">package girlyoureastar.datastructures;
+
+/**
+ * Luokkaan tallennetaan verkon yksittäisen solmun id, x- ja y-koordinaatit,
+ * 'hinta' (summa matkasta reitin loppuun ja alkuun), parent (mitä kautta reitti
+ * päätyi kyseiseen solmuun, ja boolean passable, joka kertoo pystyykö solmun
+ * kautta kulkemaan.
+ *
+ */
+public class Node implements Comparable&lt;Node&gt; {
+
+    private int nodeId;
+    private int x;
+    private int y;
+    private int cost;
+    private int costOfMovement;
+    private Node parent;
+    private boolean passable;
+    private int heapIndex;
+
+<span class="fc" id="L21">    public Node(int nodeId, int x, int y, int costOfMovement) {</span>
+<span class="fc" id="L22">        this.nodeId = nodeId;</span>
+<span class="fc" id="L23">        this.x = x;</span>
+<span class="fc" id="L24">        this.y = y;</span>
+<span class="fc" id="L25">        this.costOfMovement = costOfMovement;</span>
+<span class="fc" id="L26">        this.cost = -1;</span>
+<span class="fc" id="L27">        this.passable = true;</span>
+<span class="fc" id="L28">    }</span>
+
+    public int getCostOfMovement() {
+<span class="fc" id="L31">        return costOfMovement;</span>
+    }
+
+    public void setCostOfMovement(int costOfMovement) {
+<span class="nc" id="L35">        this.costOfMovement = costOfMovement;</span>
+<span class="nc" id="L36">    }</span>
+
+    public int getNodeId() {
+<span class="fc" id="L39">        return nodeId;</span>
+    }
+
+    public void setNodeId(int nodeId) {
+<span class="nc" id="L43">        this.nodeId = nodeId;</span>
+<span class="nc" id="L44">    }</span>
+
+    public int getX() {
+<span class="fc" id="L47">        return x;</span>
+    }
+
+    public void setX(int x) {
+<span class="nc" id="L51">        this.x = x;</span>
+<span class="nc" id="L52">    }</span>
+
+    public int getY() {
+<span class="fc" id="L55">        return y;</span>
+    }
+
+    public void setY(int y) {
+<span class="nc" id="L59">        this.y = y;</span>
+<span class="nc" id="L60">    }</span>
+
+    public Node getParent() {
+<span class="fc" id="L63">        return parent;</span>
+    }
+
+    public void setParent(Node parent) {
+<span class="fc" id="L67">        this.parent = parent;</span>
+<span class="fc" id="L68">    }</span>
+
+    public int getCost() {
+<span class="fc" id="L71">        return cost;</span>
+    }
+
+    public void setCost(int cost) {
+<span class="fc" id="L75">        this.cost = cost;</span>
+<span class="fc" id="L76">    }</span>
+
+    public boolean isPassable() {
+<span class="fc" id="L79">        return passable;</span>
+    }
+
+    public void setPassable(boolean passable) {
+<span class="fc" id="L83">        this.passable = passable;</span>
+<span class="fc" id="L84">    }</span>
+
+    @Override
+    public int compareTo(Node t) {
+<span class="fc" id="L88">        return this.cost - t.getCost();</span>
+    }
+
+    protected int getHeapIndex() {
+<span class="fc" id="L92">        return heapIndex;</span>
+    }
+
+    protected void setHeapIndex(int heapIndex) {
+<span class="fc" id="L96">        this.heapIndex = heapIndex;</span>
+<span class="fc" id="L97">    }</span>
+    
+    @Override
+    public boolean equals(Object obj) {
+<span class="pc bpc" id="L101" title="1 of 2 branches missed.">        if (obj == null) {</span>
+<span class="nc" id="L102">            return false;</span>
+        }
+<span class="pc bpc" id="L104" title="1 of 2 branches missed.">        if (getClass() != obj.getClass()) {</span>
+<span class="nc" id="L105">            return false;</span>
+        }
+<span class="fc" id="L107">        final Node other = (Node) obj;</span>
+<span class="fc bfc" id="L108" title="All 2 branches covered.">        if (this.x != other.x) {</span>
+<span class="fc" id="L109">            return false;</span>
+        }
+<span class="fc bfc" id="L111" title="All 2 branches covered.">        if (this.y != other.y) {</span>
+<span class="fc" id="L112">            return false;</span>
+        }
+<span class="fc" id="L114">        return true;</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L119">        return &quot;(&quot; + x + &quot;, &quot; + y + &quot;)&quot;;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

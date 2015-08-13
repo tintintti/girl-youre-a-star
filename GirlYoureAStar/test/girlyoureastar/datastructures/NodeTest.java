@@ -1,5 +1,5 @@
+package girlyoureastar.datastructures;
 
-import girlyoureastar.Node;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -24,7 +24,7 @@ public class NodeTest {
 
     @Before
     public void setUp() {
-        node = new Node(0, 0, 0);
+        node = new Node(0, 0, 0, 1);
     }
 
     @After

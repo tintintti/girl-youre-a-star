@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Astar.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;GirlYoureAStar&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">girlyoureastar.algorithms</a> &gt; <span class="el_source">Astar.java</span></div><h1>Astar.java</h1><pre class="source lang-java linenums">package girlyoureastar.algorithms;
+
+import girlyoureastar.datastructures.Graph;
+import girlyoureastar.datastructures.Node;
+import girlyoureastar.datastructures.MinHeap;
+import java.util.ArrayList;
+import java.util.PriorityQueue;
+import java.util.Stack;
+
+/**
+ * Luokka tarjoaa metodin lyhimmän reitin etsimiseen verkosta A*-algoritmilla.
+ *
+ */
+public class Astar {
+
+    private final Graph graph;
+    private MinHeap open;
+    private final int[] costSoFar;
+
+<span class="fc" id="L20">    public Astar(Graph graph) {</span>
+<span class="fc" id="L21">        this.graph = graph;</span>
+<span class="fc" id="L22">        this.costSoFar = new int[graph.length()];</span>
+<span class="fc" id="L23">        this.open = new MinHeap(graph.length());</span>
+<span class="fc" id="L24">    }</span>
+
+    private void initCostSoFar(Node start) {
+<span class="fc bfc" id="L27" title="All 2 branches covered.">        for (int i = 0; i &lt; costSoFar.length; i++) {</span>
+<span class="fc" id="L28">            costSoFar[i] = -1;</span>
+        }
+<span class="fc" id="L30">        costSoFar[start.getNodeId()] = 0;</span>
+<span class="fc" id="L31">    }</span>
+
+    /**
+     * Metodi etsii lyhyimmän reitin verkosta annetun alku- ja loppupisteen
+     * välillä.
+     *
+     * @param start     reitin alkupiste
+     * @param finish    reitin loppupiste
+     * @return          lyhimmän reitin solmut sisältävä pino
+     */
+    public Stack findRoute(Node start, Node finish) {
+<span class="fc" id="L42">        this.initCostSoFar(start);</span>
+<span class="fc" id="L43">        open.heapInsert(start);</span>
+
+<span class="fc bfc" id="L45" title="All 2 branches covered.">        while (!open.isEmpty()) {</span>
+<span class="fc" id="L46">            Node current = open.heapDelMin();</span>
+
+<span class="fc bfc" id="L48" title="All 2 branches covered.">            if (current.equals(finish)) {</span>
+<span class="fc" id="L49">                return shortestPathInAStack(current);</span>
+            }
+
+<span class="fc" id="L52">            ArrayList&lt;Node&gt; neighbors = graph.getEdges()[current.getNodeId()];</span>
+
+<span class="fc bfc" id="L54" title="All 2 branches covered.">            for (Node next : neighbors) {</span>
+<span class="fc" id="L55">                int newCost = costSoFar[current.getNodeId()] + next.getCostOfMovement();</span>
+<span class="pc bpc" id="L56" title="1 of 4 branches missed.">                if (costSoFar[next.getNodeId()] == -1 || newCost &lt; costSoFar[next.getNodeId()]) {</span>
+<span class="fc" id="L57">                    costSoFar[next.getNodeId()] = newCost;</span>
+<span class="fc" id="L58">                    open.heapDecKey(next, newCost + manhattanDist(next, finish));</span>
+<span class="fc" id="L59">                    open.heapInsert(next);</span>
+<span class="fc" id="L60">                    next.setParent(current);</span>
+                }
+<span class="fc" id="L62">            }</span>
+<span class="fc" id="L63">        }</span>
+
+<span class="fc" id="L65">        return null;</span>
+    }
+
+    private Stack shortestPathInAStack(Node end) {
+<span class="fc" id="L69">        Stack path = new Stack();</span>
+
+<span class="fc bfc" id="L71" title="All 2 branches covered.">        while (end != null) {</span>
+<span class="fc" id="L72">            path.push(end);</span>
+<span class="fc" id="L73">            end = end.getParent();</span>
+        }
+
+<span class="fc" id="L76">        return path;</span>
+    }
+
+    private int manhattanDist(Node start, Node finish) {
+<span class="fc" id="L80">        return Math.abs(finish.getX() - start.getX()) + Math.abs(finish.getY() - start.getY());</span>
+    }
+
+    public int[] getCostSoFar() {
+<span class="fc" id="L84">        return costSoFar;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -1,6 +1,5 @@
+package girlyoureastar.datastructures;
 
-import girlyoureastar.Graph;
-import girlyoureastar.Node;
 import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -12,7 +11,7 @@ import static org.junit.Assert.*;
 public class GraphTest {
 
     Graph g;
-    char[][] map;
+    int[][] map;
 
     public GraphTest() {
     }
@@ -27,7 +26,7 @@ public class GraphTest {
 
     @Before
     public void setUp() {
-        map = new char[6][6];
+        map = new int[6][6];
         g = new Graph(map);
     }
 

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>GirlYoureAStar.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;GirlYoureAStar&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">girlyoureastar</a> &gt; <span class="el_source">GirlYoureAStar.java</span></div><h1>GirlYoureAStar.java</h1><pre class="source lang-java linenums">package girlyoureastar;
+
+import girlyoureastar.datastructures.Graph;
+import girlyoureastar.datastructures.Node;
+import girlyoureastar.algorithms.Astar;
+import girlyoureastar.algorithms.Dijkstra;
+import java.util.Stack;
+
+<span class="nc" id="L9">public class GirlYoureAStar {</span>
+
+    public static void main(String[] args) {
+
+        
+        
+<span class="nc" id="L15">        int[][] map = new int[6][6];</span>
+
+<span class="nc" id="L17">        map[1][0] = 9;</span>
+<span class="nc" id="L18">        map[1][1] = 9;</span>
+<span class="nc" id="L19">        map[1][2] = 9;</span>
+<span class="nc" id="L20">        map[1][4] = 9;</span>
+<span class="nc" id="L21">        map[3][4] = 9;</span>
+<span class="nc" id="L22">        map[3][3] = 9;</span>
+<span class="nc" id="L23">        map[3][2] = 9;</span>
+<span class="nc" id="L24">        map[3][0] = 9;</span>
+<span class="nc" id="L25">        map[4][0] = 9;</span>
+<span class="nc" id="L26">        map[4][1] = 9;</span>
+<span class="nc" id="L27">        map[4][2] = 9;</span>
+<span class="nc" id="L28">        map[2][0] = 9;</span>
+        
+<span class="nc" id="L30">        Graph g = new Graph(map);</span>
+
+<span class="nc" id="L32">        System.out.println(g);</span>
+
+<span class="nc" id="L34">        Node[][] nodes = g.getNodes();</span>
+
+<span class="nc" id="L36">        Node start = nodes[0][0];</span>
+<span class="nc" id="L37">        Node finish = nodes[5][0];</span>
+
+<span class="nc" id="L39">        Astar a = new Astar(g);</span>
+<span class="nc" id="L40">        Dijkstra d = new Dijkstra(g);</span>
+
+<span class="nc" id="L42">        Stack path = a.findRoute(start, finish);</span>
+
+<span class="nc bnc" id="L44" title="All 2 branches missed.">        while (!path.isEmpty()) {</span>
+<span class="nc" id="L45">            System.out.println(path.pop());</span>
+        }
+
+<span class="nc" id="L48">        printMap(g, finish);</span>
+        
+        
+
+<span class="nc" id="L52">    }</span>
+
+    public static void printMap(Graph g, Node n) {
+<span class="nc" id="L55">        int[][] map = g.getMap();</span>
+
+<span class="nc bnc" id="L57" title="All 2 branches missed.">        while (n != null) {</span>
+<span class="nc" id="L58">            map[n.getX()][n.getY()] = 10;</span>
+<span class="nc" id="L59">            n = n.getParent();</span>
+        }
+
+<span class="nc bnc" id="L62" title="All 2 branches missed.">        for (int i = 0; i &lt; map.length; i++) {</span>
+<span class="nc bnc" id="L63" title="All 2 branches missed.">            for (int j = 0; j &lt; map[0].length; j++) {</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">                if (map[i][j] == 9) {</span>
+<span class="nc" id="L65">                    System.out.print(&quot;#&quot;);</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">                } else if (map[i][j] == 10) {</span>
+<span class="nc" id="L67">                    System.out.print(&quot;.&quot;);</span>
+                } else {
+<span class="nc" id="L69">                    System.out.print(&quot; &quot;);</span>
+                }
+            }
+<span class="nc" id="L72">            System.out.println(&quot;&quot;);</span>
+        }
+
+<span class="nc" id="L75">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -1,7 +1,7 @@
+package girlyoureastar.algorithms;
 
-import girlyoureastar.Astar;
-import girlyoureastar.Graph;
-import girlyoureastar.Node;
+import girlyoureastar.datastructures.Graph;
+import girlyoureastar.datastructures.Node;
 import java.util.Stack;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -29,13 +29,13 @@ public class AstarTest {
 
     @Before
     public void setUp() {
-        char[][] map = new char[6][6];
+        int[][] map = new int[6][6];
         Graph graph = new Graph(map);
 
         astar = new Astar(graph);
 
-        start = new Node(0, 0, 0);
-        finish = new Node(1, 5, 0);
+        start = new Node(0, 0, 0, 1);
+        finish = new Node(1, 5, 0, 1);
     }
 
     @After
@@ -55,8 +55,8 @@ public class AstarTest {
 
     @Test
     public void pathGoesAroundAWallViaTheShortestPath() {
-        char[][] map = new char[6][6];
-        map[2][0] = '#';
+        int[][] map = new int[6][6];
+        map[2][0] = 9;
 
         Graph graph = new Graph(map);
 
@@ -65,6 +65,20 @@ public class AstarTest {
         Stack path = astar.findRoute(start, finish);
 
         assertEquals(8, path.size());
+    }
+
+    @Test
+    public void returnsNullIfThereIsNoPath() {
+        int[][] map = new int[6][6];
+        map[0][1] = 9;
+        map[1][0] = 9;
+
+        Graph graph = new Graph(map);
+        astar = new Astar(graph);
+
+        Stack path = astar.findRoute(start, finish);
+
+        assertNull(path);
     }
 
 }
