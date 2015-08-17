@@ -3,9 +3,8 @@ package girlyoureastar.algorithms;
 import girlyoureastar.datastructures.Graph;
 import girlyoureastar.datastructures.Node;
 import girlyoureastar.datastructures.MinHeap;
+import girlyoureastar.datastructures.Stack;
 import java.util.ArrayList;
-import java.util.PriorityQueue;
-import java.util.Stack;
 
 /**
  * Luokka tarjoaa metodin lyhimmän reitin etsimiseen verkosta A*-algoritmilla.
@@ -51,22 +50,31 @@ public class Astar {
 
             ArrayList<Node> neighbors = graph.getEdges()[current.getNodeId()];
 
-            for (Node next : neighbors) {
-                int newCost = costSoFar[current.getNodeId()] + next.getCostOfMovement();
-                if (costSoFar[next.getNodeId()] == -1 || newCost < costSoFar[next.getNodeId()]) {
-                    costSoFar[next.getNodeId()] = newCost;
-                    open.heapDecKey(next, newCost + manhattanDist(next, finish));
-                    open.heapInsert(next);
-                    next.setParent(current);
-                }
-            }
+            updateNeighbors(neighbors, current, finish);
         }
 
         return null;
     }
 
+    private void updateNeighbors(ArrayList<Node> neighbors, Node current, Node finish) {
+        for (Node next : neighbors) {
+            int newCost = costSoFar[current.getNodeId()] + next.getCostOfMovement();
+            
+            if (costSoFar[next.getNodeId()] == -1) {
+                costSoFar[next.getNodeId()] = newCost;
+                next.setCost(newCost + manhattanDist(next, finish));
+                open.heapInsert(next);
+                next.setParent(current);
+            } else if (newCost < costSoFar[next.getNodeId()]) {
+                costSoFar[next.getNodeId()] = newCost;
+                open.heapDecKey(next, newCost + manhattanDist(next, finish));
+                next.setParent(current);
+            }
+        }
+    }
+
     private Stack shortestPathInAStack(Node end) {
-        Stack path = new Stack();
+        Stack path = new Stack(graph.length());
 
         while (end != null) {
             path.push(end);

@@ -28,31 +28,32 @@ public class MinHeap {
     }
 
     private void heapify(int i) {
-        Node node = heap[i];
+        
         int left = left(i);
         int right = right(i);
         int smallest = left;
 
         if (right <= heapSize) {
-            if (heap[right].compareTo(heap[left]) > 0) {
+            if (heap[left].compareTo(heap[right]) < 0) {
                 smallest = left;
             }
-            if (heap[smallest].compareTo(node) < 0) {
-
-                heap[i] = heap[smallest];
-                heap[i].setHeapIndex(i);
-                heap[smallest] = node;
-                node.setHeapIndex(smallest);
-
+            if (heap[smallest].compareTo(heap[i]) < 0) {
+                switchNodes(i, smallest);
                 heapify(smallest);
             }
-        } else if (left == heapSize && heap[left].compareTo(node) < 0) {
-
-            heap[i] = heap[left];
-            heap[i].setHeapIndex(i);
-            heap[left] = node;
-            node.setHeapIndex(left);
+        } else if (left == heapSize && heap[left].compareTo(heap[i]) < 0) {
+            switchNodes(i, left);
         }
+    }
+
+    private void switchNodes(int index1, int index2) {
+        Node n = heap[index1];
+
+        heap[index1] = heap[index2];
+        heap[index1].setHeapIndex(index1);
+
+        heap[index2] = n;
+        n.setHeapIndex(index2);
     }
 
     /**
@@ -109,10 +110,7 @@ public class MinHeap {
         int i = node.getHeapIndex();
 
         while (i > 1 && node.compareTo(heap[parent(i)]) < 0) {
-            heap[i] = heap[parent(i)];
-            heap[i].setHeapIndex(i);
-            heap[parent(i)] = node;
-            node.setHeapIndex(parent(i));
+            switchNodes(i, parent(i));
         }
 
     }

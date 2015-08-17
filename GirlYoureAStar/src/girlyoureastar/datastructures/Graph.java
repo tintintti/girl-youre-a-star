@@ -22,14 +22,7 @@ public class Graph {
 
     private void mapToNodes() {
 
-        int nodeId = 0;
-        for (int i = 0; i < this.map.length; i++) {
-            for (int j = 0; j < this.map[0].length; j++) {
-                Node toAdd = new Node(nodeId, i, j, this.map[i][j] + 1);
-                nodes[i][j] = toAdd;
-                nodeId++;
-            }
-        }
+        createNodes();
 
         for (int i = 0; i < nodes.length; i++) {
             for (int j = 0; j < nodes[0].length; j++) {
@@ -65,6 +58,17 @@ public class Graph {
 
         }
 
+    }
+
+    private void createNodes() {
+        int nodeId = 0;
+        for (int i = 0; i < this.map.length; i++) {
+            for (int j = 0; j < this.map[0].length; j++) {
+                Node toAdd = new Node(nodeId, i, j, this.map[i][j] + 1);
+                nodes[i][j] = toAdd;
+                nodeId++;
+            }
+        }
     }
 
     /**

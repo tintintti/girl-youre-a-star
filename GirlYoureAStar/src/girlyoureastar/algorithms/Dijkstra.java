@@ -3,9 +3,8 @@ package girlyoureastar.algorithms;
 import girlyoureastar.datastructures.Graph;
 import girlyoureastar.datastructures.Node;
 import girlyoureastar.datastructures.MinHeap;
+import girlyoureastar.datastructures.Stack;
 import java.util.ArrayList;
-import java.util.PriorityQueue;
-import java.util.Stack;
 
 /**
  * Luokka tarjoaa metodin lyhimmän reitin etsimiseen verkosta Dijkstran
@@ -44,21 +43,29 @@ public class Dijkstra {
 
             ArrayList<Node> neighbors = graph.getEdges()[current.getNodeId()];
 
-            for (Node next : neighbors) {
-                int newCost = current.getCost() + next.getCostOfMovement();
-                if (next.getCost() == -1 || next.getCost() > newCost) {
-                    open.heapDecKey(next, newCost);
-                    open.heapInsert(next);
-                    next.setParent(current);
-                }
-            }
+            updateNeighbors(neighbors, current);
         }
 
         return null;
     }
 
+    private void updateNeighbors(ArrayList<Node> neighbors, Node current) {
+        for (Node next : neighbors) {
+            int newCost = current.getCost() + next.getCostOfMovement();
+            
+            if (next.getCost() == -1) {
+                next.setCost(newCost);
+                open.heapInsert(next);
+                next.setParent(current);
+            } else if (next.getCost() > newCost) {
+                open.heapDecKey(next, newCost);
+                next.setParent(current);
+            }
+        }
+    }
+
     private Stack shortestPathInAStack(Node end) {
-        Stack path = new Stack();
+        Stack path = new Stack(graph.length());
 
         while (end != null) {
             path.push(end);

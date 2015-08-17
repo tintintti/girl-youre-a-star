@@ -2,7 +2,7 @@ package girlyoureastar.algorithms;
 
 import girlyoureastar.datastructures.Graph;
 import girlyoureastar.datastructures.Node;
-import java.util.Stack;
+import girlyoureastar.datastructures.Stack;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

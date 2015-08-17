@@ -2,9 +2,10 @@ package girlyoureastar;
 
 import girlyoureastar.datastructures.Graph;
 import girlyoureastar.datastructures.Node;
+import girlyoureastar.datastructures.Stack;
 import girlyoureastar.algorithms.Astar;
 import girlyoureastar.algorithms.Dijkstra;
-import java.util.Stack;
+
 
 public class GirlYoureAStar {
 
