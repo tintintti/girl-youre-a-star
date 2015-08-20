@@ -45,13 +45,13 @@ public class DijkstraTest {
     }
 
     @Test
-    public void returnsTheShortestPathInAMapWithNoWalls() {
+    public void returnsTheShortestPathInAnUnWeightedMapWithNoWalls() {
         Stack stack = dijkstra.findRoute(start, finish);
         assertEquals(6, stack.size());
     }
 
     @Test
-    public void pathGoesAroundAWallViaTheShortestPath() {
+    public void pathGoesAroundAWallViaTheShortestPathInAnUnWeightedMap() {
         int[][] map = new int[6][6];
         map[2][0] = 9;
 

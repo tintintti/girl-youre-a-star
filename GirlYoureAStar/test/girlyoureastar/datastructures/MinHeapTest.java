@@ -60,7 +60,7 @@ public class MinHeapTest {
     @Test
     public void heapSizeGrowsWhenNodeIsAdded() {
         heap.heapInsert(new Node(2, 0, 1, 1));
-        assertEquals(3, heap.getHeapSize());
+        assertEquals(3, heap.size());
     }
 
     @Test
@@ -90,7 +90,7 @@ public class MinHeapTest {
     @Test
     public void heapSizeDecreasesAfterDelMin() {
         heap.heapDelMin();
-        assertEquals(1, heap.getHeapSize());
+        assertEquals(1, heap.size());
     }
 
 }

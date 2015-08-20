@@ -28,7 +28,7 @@ public class MinHeap {
     }
 
     private void heapify(int i) {
-        
+
         int left = left(i);
         int right = right(i);
         int smallest = left;
@@ -136,7 +136,7 @@ public class MinHeap {
      * @return keon koko, eli missä indeksissä taulukon viimeinen kekoon kuuluva
      * alkio on
      */
-    public int getHeapSize() {
+    public int size() {
         return heapSize;
     }
 
