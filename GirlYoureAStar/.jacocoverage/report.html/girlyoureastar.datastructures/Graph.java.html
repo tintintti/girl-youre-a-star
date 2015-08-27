@@ -1,109 +1,133 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Graph.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;GirlYoureAStar&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">girlyoureastar.datastructures</a> &gt; <span class="el_source">Graph.java</span></div><h1>Graph.java</h1><pre class="source lang-java linenums">package girlyoureastar.datastructures;
 
-import java.util.ArrayList;
-
 /**
- * Luokkaan tallennetaan kaikki verkon solmut ja kaaret. Muuttaa kaksiuloitteisena talukkona
- * annetun kartan Nodeista muodostuvaksi verkoksi.
+ * Luokkaan tallennetaan kaikki verkon solmut ja kaaret. Muuttaa
+ * kaksiuloitteisena talukkona annetun kartan Nodeista muodostuvaksi verkoksi.
  *
  */
 public class Graph {
 
     int[][] map;
     Node[][] nodes;
-    ArrayList&lt;Node&gt;[] edges;
+    LinkedList[] edges;
 
-<span class="fc" id="L16">    public Graph(int[][] map) {</span>
-<span class="fc" id="L17">        this.map = map;</span>
-<span class="fc" id="L18">        this.nodes = new Node[map.length][map[0].length];</span>
-<span class="fc" id="L19">        this.edges = (ArrayList&lt;Node&gt;[]) new ArrayList[(this.map.length * this.map[0].length)];</span>
-<span class="fc" id="L20">        this.mapToNodes();</span>
-<span class="fc" id="L21">    }</span>
+<span class="fc" id="L14">    public Graph(int[][] map) {</span>
+<span class="fc" id="L15">        this.map = map;</span>
+<span class="fc" id="L16">        this.nodes = new Node[map.length][map[0].length];</span>
+<span class="fc" id="L17">        this.edges = new LinkedList[(this.map.length * this.map[0].length)];</span>
+<span class="fc" id="L18">        this.mapToNodes();</span>
+<span class="fc" id="L19">    }</span>
 
     private void mapToNodes() {
 
-<span class="fc" id="L25">        int nodeId = 0;</span>
-<span class="fc bfc" id="L26" title="All 2 branches covered.">        for (int i = 0; i &lt; this.map.length; i++) {</span>
-<span class="fc bfc" id="L27" title="All 2 branches covered.">            for (int j = 0; j &lt; this.map[0].length; j++) {</span>
-<span class="fc" id="L28">                Node toAdd = new Node(nodeId, i, j, this.map[i][j] + 1);</span>
-<span class="fc" id="L29">                nodes[i][j] = toAdd;</span>
-<span class="fc" id="L30">                nodeId++;</span>
-            }
-        }
+<span class="fc" id="L23">        createNodes();</span>
 
-<span class="fc bfc" id="L34" title="All 2 branches covered.">        for (int i = 0; i &lt; nodes.length; i++) {</span>
-<span class="fc bfc" id="L35" title="All 2 branches covered.">            for (int j = 0; j &lt; nodes[0].length; j++) {</span>
-<span class="fc" id="L36">                Node n = nodes[i][j];</span>
-<span class="fc" id="L37">                edges[n.getNodeId()] = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L25" title="All 2 branches covered.">        for (int i = 0; i &lt; nodes.length; i++) {</span>
+<span class="fc bfc" id="L26" title="All 2 branches covered.">            for (int j = 0; j &lt; nodes[0].length; j++) {</span>
+<span class="fc" id="L27">                Node n = nodes[i][j];</span>
+<span class="fc" id="L28">                edges[n.getNodeId()] = new LinkedList();</span>
 
-<span class="fc bfc" id="L39" title="All 2 branches covered.">                if (map[i][j] == 9) {</span>
-<span class="fc" id="L40">                    nodes[i][j].setPassable(false);</span>
-<span class="fc" id="L41">                    continue;</span>
+<span class="fc bfc" id="L30" title="All 2 branches covered.">                if (map[i][j] == 9) {</span>
+<span class="fc" id="L31">                    nodes[i][j].setPassable(false);</span>
+<span class="fc" id="L32">                    continue;</span>
                 }
 
-<span class="fc bfc" id="L44" title="All 4 branches covered.">                if (i - 1 &gt;= 0 &amp;&amp; map[i - 1][j] != 9) {</span>
-<span class="fc" id="L45">                    Node neighbor = nodes[i - 1][j];</span>
-<span class="fc" id="L46">                    edges[n.getNodeId()].add(neighbor);</span>
+<span class="fc bfc" id="L35" title="All 4 branches covered.">                if (i - 1 &gt;= 0 &amp;&amp; map[i - 1][j] != 9) {</span>
+<span class="fc" id="L36">                    Node neighbor = nodes[i - 1][j];</span>
+<span class="fc" id="L37">                    edges[n.getNodeId()].add(neighbor);</span>
                 }
 
-<span class="fc bfc" id="L49" title="All 4 branches covered.">                if (i + 1 &lt; map.length &amp;&amp; map[i + 1][j] != 9) {</span>
-<span class="fc" id="L50">                    Node neighbor = nodes[i + 1][j];</span>
-<span class="fc" id="L51">                    edges[n.getNodeId()].add(neighbor);</span>
+<span class="fc bfc" id="L40" title="All 4 branches covered.">                if (i + 1 &lt; map.length &amp;&amp; map[i + 1][j] != 9) {</span>
+<span class="fc" id="L41">                    Node neighbor = nodes[i + 1][j];</span>
+<span class="fc" id="L42">                    edges[n.getNodeId()].add(neighbor);</span>
                 }
 
-<span class="fc bfc" id="L54" title="All 4 branches covered.">                if (j - 1 &gt;= 0 &amp;&amp; map[i][j - 1] != 9) {</span>
-<span class="fc" id="L55">                    Node neighbor = nodes[i][j - 1];</span>
-<span class="fc" id="L56">                    edges[n.getNodeId()].add(neighbor);</span>
+<span class="fc bfc" id="L45" title="All 4 branches covered.">                if (j - 1 &gt;= 0 &amp;&amp; map[i][j - 1] != 9) {</span>
+<span class="fc" id="L46">                    Node neighbor = nodes[i][j - 1];</span>
+<span class="fc" id="L47">                    edges[n.getNodeId()].add(neighbor);</span>
                 }
 
-<span class="fc bfc" id="L59" title="All 4 branches covered.">                if (j + 1 &lt; map[0].length &amp;&amp; map[i][j + 1] != 9) {</span>
-<span class="fc" id="L60">                    Node neighbor = nodes[i][j + 1];</span>
-<span class="fc" id="L61">                    edges[n.getNodeId()].add(neighbor);</span>
+<span class="fc bfc" id="L50" title="All 4 branches covered.">                if (j + 1 &lt; map[0].length &amp;&amp; map[i][j + 1] != 9) {</span>
+<span class="fc" id="L51">                    Node neighbor = nodes[i][j + 1];</span>
+<span class="fc" id="L52">                    edges[n.getNodeId()].add(neighbor);</span>
                 }
 
             }
 
         }
 
-<span class="fc" id="L68">    }</span>
+<span class="fc" id="L59">    }</span>
 
+    private void createNodes() {
+<span class="fc" id="L62">        int nodeId = 0;</span>
+<span class="fc bfc" id="L63" title="All 2 branches covered.">        for (int i = 0; i &lt; this.map.length; i++) {</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">            for (int j = 0; j &lt; this.map[0].length; j++) {</span>
+<span class="fc" id="L65">                Node toAdd = new Node(nodeId, i, j, this.map[i][j] + 1);</span>
+<span class="fc" id="L66">                nodes[i][j] = toAdd;</span>
+<span class="fc" id="L67">                nodeId++;</span>
+            }
+        }
+<span class="fc" id="L70">    }</span>
+
+    /**
+     *
+     * @return Nodejen määrä verkossa
+     */
     public int length() {
-<span class="fc" id="L71">        return this.edges.length;</span>
+<span class="fc" id="L77">        return this.edges.length;</span>
     }
 
-    public ArrayList&lt;Node&gt;[] getEdges() {
-<span class="fc" id="L75">        return edges;</span>
+    /**
+     *
+     * @return verkon vieruslistaesitys
+     */
+    public LinkedList[] getEdges() {
+<span class="fc" id="L85">        return edges;</span>
     }
 
+    /**
+     *
+     * @return Nodet kaksiulotteisessa taulukossa
+     */
     public Node[][] getNodes() {
-<span class="fc" id="L79">        return nodes;</span>
+<span class="fc" id="L93">        return nodes;</span>
     }
 
+    /**
+     *
+     * @return kartan numeroesitys kaksiulotteisessa taulukossa
+     */
     public int[][] getMap() {
-<span class="nc" id="L83">        return map;</span>
+<span class="nc" id="L101">        return map;</span>
     }
 
+    /**
+     * Metodi asettaa Graphille uuden kartan ja muuttaa annetun kartan &quot;ruudut&quot;
+     * Nodeiksi sekä verkon viruslistaesityksen
+     *
+     * @param map uusi kartta numeroina kaksiulotteisessa taulukossa
+     */
     public void setMap(int[][] map) {
-<span class="nc" id="L87">        this.map = map;</span>
-<span class="nc" id="L88">        this.mapToNodes();</span>
-<span class="nc" id="L89">    }</span>
+<span class="nc" id="L111">        this.map = map;</span>
+<span class="nc" id="L112">        this.mapToNodes();</span>
+<span class="nc" id="L113">    }</span>
 
     @Override
     public String toString() {
-<span class="nc" id="L93">        StringBuilder s = new StringBuilder();</span>
+<span class="nc" id="L117">        StringBuilder s = new StringBuilder();</span>
 
-<span class="nc bnc" id="L95" title="All 2 branches missed.">        for (Node[] node : nodes) {</span>
-<span class="nc bnc" id="L96" title="All 2 branches missed.">            for (Node n : node) {</span>
-<span class="nc bnc" id="L97" title="All 2 branches missed.">                if (n.isPassable()) {</span>
-<span class="nc" id="L98">                    s.append(' ');</span>
+<span class="nc bnc" id="L119" title="All 2 branches missed.">        for (Node[] node : nodes) {</span>
+<span class="nc bnc" id="L120" title="All 2 branches missed.">            for (Node n : node) {</span>
+<span class="nc bnc" id="L121" title="All 2 branches missed.">                if (n.isPassable()) {</span>
+<span class="nc" id="L122">                    s.append(n.getCostOfMovement());</span>
                 } else {
-<span class="nc" id="L100">                    s.append('#');</span>
+<span class="nc" id="L124">                    s.append('#');</span>
                 }
             }
-<span class="nc" id="L103">            s.append(&quot;\n&quot;);</span>
+<span class="nc" id="L127">            s.append(&quot;\n&quot;);</span>
         }
 
-<span class="nc" id="L106">        return s.toString();</span>
+<span class="nc" id="L130">        return s.toString();</span>
     }
 
 }

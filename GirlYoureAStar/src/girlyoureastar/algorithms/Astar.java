@@ -2,9 +2,12 @@ package girlyoureastar.algorithms;
 
 import girlyoureastar.datastructures.Graph;
 import girlyoureastar.datastructures.Node;
+import girlyoureastar.datastructures.BinaryHeap;
+import girlyoureastar.datastructures.FibonacciHeap;
+import girlyoureastar.datastructures.LinkedList;
+import girlyoureastar.datastructures.LinkedListNode;
 import girlyoureastar.datastructures.MinHeap;
 import girlyoureastar.datastructures.Stack;
-import java.util.ArrayList;
 
 /**
  * Luokka tarjoaa metodin lyhimmän reitin etsimiseen verkosta A*-algoritmilla.
@@ -16,10 +19,14 @@ public class Astar {
     private MinHeap open;
     private final int[] costSoFar;
 
-    public Astar(Graph graph) {
+    public Astar(Graph graph, boolean fibonacci) {
         this.graph = graph;
         this.costSoFar = new int[graph.length()];
-        this.open = new MinHeap(graph.length());
+        if (fibonacci) {
+            this.open = new FibonacciHeap();
+        } else {
+            this.open = new BinaryHeap(graph.length());
+        }
     }
 
     private void initCostSoFar(Node start) {
@@ -39,16 +46,16 @@ public class Astar {
      */
     public Stack findRoute(Node start, Node finish) {
         this.initCostSoFar(start);
-        open.heapInsert(start);
+        open.insert(start);
 
         while (!open.isEmpty()) {
-            Node current = open.heapDelMin();
+            Node current = open.delMin();
 
             if (current.equals(finish)) {
                 return shortestPathInAStack(current);
             }
 
-            ArrayList<Node> neighbors = graph.getEdges()[current.getNodeId()];
+            LinkedList neighbors = graph.getEdges()[current.getNodeId()];
 
             updateNeighbors(neighbors, current, finish);
         }
@@ -56,20 +63,25 @@ public class Astar {
         return null;
     }
 
-    private void updateNeighbors(ArrayList<Node> neighbors, Node current, Node finish) {
-        for (Node next : neighbors) {
+    private void updateNeighbors(LinkedList neighbors, Node current, Node finish) {
+        
+        LinkedListNode nextListNode = neighbors.getHead();
+        
+        while (nextListNode != null) {
+            Node next = nextListNode.getKey();
             int newCost = costSoFar[current.getNodeId()] + next.getCostOfMovement();
-            
+
             if (costSoFar[next.getNodeId()] == -1) {
                 costSoFar[next.getNodeId()] = newCost;
                 next.setCost(newCost + manhattanDist(next, finish));
-                open.heapInsert(next);
+                open.insert(next);
                 next.setParent(current);
             } else if (newCost < costSoFar[next.getNodeId()]) {
                 costSoFar[next.getNodeId()] = newCost;
-                open.heapDecKey(next, newCost + manhattanDist(next, finish));
+                open.decreaseKey(next, newCost + manhattanDist(next, finish));
                 next.setParent(current);
             }
+            nextListNode = nextListNode.getNext();
         }
     }
 

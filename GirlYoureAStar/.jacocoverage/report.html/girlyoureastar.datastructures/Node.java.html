@@ -17,106 +17,152 @@ public class Node implements Comparable&lt;Node&gt; {
     private Node parent;
     private boolean passable;
     private int heapIndex;
+    private FiboNode fiboNode;
 
-<span class="fc" id="L21">    public Node(int nodeId, int x, int y, int costOfMovement) {</span>
-<span class="fc" id="L22">        this.nodeId = nodeId;</span>
-<span class="fc" id="L23">        this.x = x;</span>
-<span class="fc" id="L24">        this.y = y;</span>
-<span class="fc" id="L25">        this.costOfMovement = costOfMovement;</span>
-<span class="fc" id="L26">        this.cost = -1;</span>
-<span class="fc" id="L27">        this.passable = true;</span>
-<span class="fc" id="L28">    }</span>
+<span class="fc" id="L22">    public Node(int nodeId, int x, int y, int costOfMovement) {</span>
+<span class="fc" id="L23">        this.nodeId = nodeId;</span>
+<span class="fc" id="L24">        this.x = x;</span>
+<span class="fc" id="L25">        this.y = y;</span>
+<span class="fc" id="L26">        this.costOfMovement = costOfMovement;</span>
+<span class="fc" id="L27">        this.cost = -1;</span>
+<span class="fc" id="L28">        this.passable = true;</span>
+<span class="fc" id="L29">    }</span>
 
     public int getCostOfMovement() {
-<span class="fc" id="L31">        return costOfMovement;</span>
+<span class="fc" id="L32">        return costOfMovement;</span>
     }
 
     public void setCostOfMovement(int costOfMovement) {
-<span class="nc" id="L35">        this.costOfMovement = costOfMovement;</span>
-<span class="nc" id="L36">    }</span>
+<span class="nc" id="L36">        this.costOfMovement = costOfMovement;</span>
+<span class="nc" id="L37">    }</span>
 
     public int getNodeId() {
-<span class="fc" id="L39">        return nodeId;</span>
+<span class="fc" id="L40">        return nodeId;</span>
     }
 
     public void setNodeId(int nodeId) {
-<span class="nc" id="L43">        this.nodeId = nodeId;</span>
-<span class="nc" id="L44">    }</span>
+<span class="nc" id="L44">        this.nodeId = nodeId;</span>
+<span class="nc" id="L45">    }</span>
 
     public int getX() {
-<span class="fc" id="L47">        return x;</span>
+<span class="fc" id="L48">        return x;</span>
     }
 
     public void setX(int x) {
-<span class="nc" id="L51">        this.x = x;</span>
-<span class="nc" id="L52">    }</span>
+<span class="nc" id="L52">        this.x = x;</span>
+<span class="nc" id="L53">    }</span>
 
     public int getY() {
-<span class="fc" id="L55">        return y;</span>
+<span class="fc" id="L56">        return y;</span>
     }
 
     public void setY(int y) {
-<span class="nc" id="L59">        this.y = y;</span>
-<span class="nc" id="L60">    }</span>
+<span class="nc" id="L60">        this.y = y;</span>
+<span class="nc" id="L61">    }</span>
 
+    /**
+     *
+     * @return Noden parent, eli mistä nodesta reitillä on päädytty
+     */
     public Node getParent() {
-<span class="fc" id="L63">        return parent;</span>
+<span class="fc" id="L68">        return parent;</span>
     }
 
+    /**
+     * Metodi asettaa nodeen tiedon siitä, mistä siihen on päädytty reitillä
+     *
+     * @param parent Node, josta reitillä on tämänhetkiseen nodeen päädytty
+     */
     public void setParent(Node parent) {
-<span class="fc" id="L67">        this.parent = parent;</span>
-<span class="fc" id="L68">    }</span>
+<span class="fc" id="L77">        this.parent = parent;</span>
+<span class="fc" id="L78">    }</span>
 
+    /**
+     *
+     * @return reitinhaussa käytettävä arvo, joka kertoo miten suuri todellinen
+     * tai arvioitu kustannus nodeen siirtymisellä reitillä on
+     */
     public int getCost() {
-<span class="fc" id="L71">        return cost;</span>
+<span class="fc" id="L86">        return cost;</span>
     }
 
+    /**
+     * Metodi asettaa nodelle arvon, joka kertoo reitin kokonaiskustannuksen jos
+     * nodeen siirrytään ja jonka mukaan nodet järjestetään tarvittaessa
+     *
+     * @param cost noden arvo
+     */
     public void setCost(int cost) {
-<span class="fc" id="L75">        this.cost = cost;</span>
-<span class="fc" id="L76">    }</span>
+<span class="fc" id="L96">        this.cost = cost;</span>
+<span class="fc" id="L97">    }</span>
 
+    /**
+     *
+     * @return onko nodeen mahdollista siirtyä
+     */
     public boolean isPassable() {
-<span class="fc" id="L79">        return passable;</span>
+<span class="fc" id="L104">        return passable;</span>
     }
 
+    /**
+     * Metodi asettaa Nodelle arvon true, jos siihen on mahdollista siirtyä ja
+     * false jos ei.
+     *
+     * @param passable boolean-arvo, joka kertoo onko nodeen mahdollista siirtyä
+     * reittiä etsiessä
+     */
     public void setPassable(boolean passable) {
-<span class="fc" id="L83">        this.passable = passable;</span>
-<span class="fc" id="L84">    }</span>
+<span class="fc" id="L115">        this.passable = passable;</span>
+<span class="fc" id="L116">    }</span>
 
+    /**
+     * Metodi vertaa nodeja cost-attribuutin perusteella.
+     *
+     * @param t Node johon verrataan
+     * @return verrattavien nodejen cost-arvojen erotus
+     */
     @Override
     public int compareTo(Node t) {
-<span class="fc" id="L88">        return this.cost - t.getCost();</span>
+<span class="fc" id="L126">        return this.cost - t.getCost();</span>
     }
 
     protected int getHeapIndex() {
-<span class="fc" id="L92">        return heapIndex;</span>
+<span class="fc" id="L130">        return heapIndex;</span>
     }
 
     protected void setHeapIndex(int heapIndex) {
-<span class="fc" id="L96">        this.heapIndex = heapIndex;</span>
-<span class="fc" id="L97">    }</span>
-    
+<span class="fc" id="L134">        this.heapIndex = heapIndex;</span>
+<span class="fc" id="L135">    }</span>
+
+    public FiboNode getFiboNode() {
+<span class="nc" id="L138">        return fiboNode;</span>
+    }
+
+    public void setFiboNode(FiboNode fiboNode) {
+<span class="fc" id="L142">        this.fiboNode = fiboNode;</span>
+<span class="fc" id="L143">    }</span>
+
     @Override
     public boolean equals(Object obj) {
-<span class="pc bpc" id="L101" title="1 of 2 branches missed.">        if (obj == null) {</span>
-<span class="nc" id="L102">            return false;</span>
+<span class="pc bpc" id="L147" title="1 of 2 branches missed.">        if (obj == null) {</span>
+<span class="nc" id="L148">            return false;</span>
         }
-<span class="pc bpc" id="L104" title="1 of 2 branches missed.">        if (getClass() != obj.getClass()) {</span>
-<span class="nc" id="L105">            return false;</span>
+<span class="pc bpc" id="L150" title="1 of 2 branches missed.">        if (getClass() != obj.getClass()) {</span>
+<span class="nc" id="L151">            return false;</span>
         }
-<span class="fc" id="L107">        final Node other = (Node) obj;</span>
-<span class="fc bfc" id="L108" title="All 2 branches covered.">        if (this.x != other.x) {</span>
-<span class="fc" id="L109">            return false;</span>
+<span class="fc" id="L153">        final Node other = (Node) obj;</span>
+<span class="fc bfc" id="L154" title="All 2 branches covered.">        if (this.x != other.x) {</span>
+<span class="fc" id="L155">            return false;</span>
         }
-<span class="fc bfc" id="L111" title="All 2 branches covered.">        if (this.y != other.y) {</span>
-<span class="fc" id="L112">            return false;</span>
+<span class="fc bfc" id="L157" title="All 2 branches covered.">        if (this.y != other.y) {</span>
+<span class="fc" id="L158">            return false;</span>
         }
-<span class="fc" id="L114">        return true;</span>
+<span class="fc" id="L160">        return true;</span>
     }
 
     @Override
     public String toString() {
-<span class="nc" id="L119">        return &quot;(&quot; + x + &quot;, &quot; + y + &quot;)&quot;;</span>
+<span class="nc" id="L165">        return nodeId + &quot; (&quot; + x + &quot;, &quot; + y + &quot;) cost: &quot; + cost;</span>
     }
 
 }

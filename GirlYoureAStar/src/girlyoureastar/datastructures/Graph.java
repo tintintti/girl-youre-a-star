@@ -1,7 +1,5 @@
 package girlyoureastar.datastructures;
 
-import java.util.ArrayList;
-
 /**
  * Luokkaan tallennetaan kaikki verkon solmut ja kaaret. Muuttaa
  * kaksiuloitteisena talukkona annetun kartan Nodeista muodostuvaksi verkoksi.
@@ -11,12 +9,12 @@ public class Graph {
 
     int[][] map;
     Node[][] nodes;
-    ArrayList<Node>[] edges;
+    LinkedList[] edges;
 
     public Graph(int[][] map) {
         this.map = map;
         this.nodes = new Node[map.length][map[0].length];
-        this.edges = (ArrayList<Node>[]) new ArrayList[(this.map.length * this.map[0].length)];
+        this.edges = new LinkedList[(this.map.length * this.map[0].length)];
         this.mapToNodes();
     }
 
@@ -27,7 +25,7 @@ public class Graph {
         for (int i = 0; i < nodes.length; i++) {
             for (int j = 0; j < nodes[0].length; j++) {
                 Node n = nodes[i][j];
-                edges[n.getNodeId()] = new ArrayList<>();
+                edges[n.getNodeId()] = new LinkedList();
 
                 if (map[i][j] == 9) {
                     nodes[i][j].setPassable(false);
@@ -83,7 +81,7 @@ public class Graph {
      *
      * @return verkon vieruslistaesitys
      */
-    public ArrayList<Node>[] getEdges() {
+    public LinkedList[] getEdges() {
         return edges;
     }
 
@@ -121,7 +119,7 @@ public class Graph {
         for (Node[] node : nodes) {
             for (Node n : node) {
                 if (n.isPassable()) {
-                    s.append(' ');
+                    s.append(n.getCostOfMovement());
                 } else {
                     s.append('#');
                 }

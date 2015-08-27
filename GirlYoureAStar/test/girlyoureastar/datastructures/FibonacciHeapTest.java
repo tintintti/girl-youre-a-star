@@ -60,6 +60,6 @@ public class FibonacciHeapTest {
          heap.insert(n1);
          heap.insert(n2);
          
-         assertEquals(n2, heap.peek().getNode());
+         assertEquals(n2, heap.peek());
      }
 }

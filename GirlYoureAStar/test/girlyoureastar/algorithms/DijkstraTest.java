@@ -32,7 +32,7 @@ public class DijkstraTest {
         int[][] map = new int[6][6];
         Graph graph = new Graph(map);
 
-        dijkstra = new Dijkstra(graph);
+        dijkstra = new Dijkstra(graph, false);
 
         Node[][] nodes = graph.getNodes();
 
@@ -57,7 +57,7 @@ public class DijkstraTest {
 
         Graph graph = new Graph(map);
 
-        dijkstra = new Dijkstra(graph);
+        dijkstra = new Dijkstra(graph, false);
 
         Stack path = dijkstra.findRoute(start, finish);
 
@@ -71,7 +71,7 @@ public class DijkstraTest {
         map[1][0] = 9;
 
         Graph graph = new Graph(map);
-        dijkstra = new Dijkstra(graph);
+        dijkstra = new Dijkstra(graph, false);
 
         Stack path = dijkstra.findRoute(start, finish);
 

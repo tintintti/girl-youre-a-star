@@ -4,7 +4,7 @@ package girlyoureastar.datastructures;
  * Luokkaan tallennetaan yksittäisen Fibonacci-keon alkion tiedot.
  *
  */
-public class FiboNode {
+public class FiboNode implements Comparable<FiboNode> {
 
     private Node node;
     private int degree;
@@ -34,6 +34,14 @@ public class FiboNode {
 
     public void setDegree(int degree) {
         this.degree = degree;
+    }
+
+    public void increaseDegree() {
+        degree++;
+    }
+    
+    public void decreaseDegree() {
+        degree--;
     }
 
     public FiboNode getParent() {
@@ -74,6 +82,11 @@ public class FiboNode {
 
     public void setMarked(boolean isMarked) {
         this.marked = isMarked;
+    }
+
+    @Override
+    public int compareTo(FiboNode t) {
+        return node.compareTo(t.getNode());
     }
 
 }

@@ -16,11 +16,11 @@ import static org.junit.Assert.*;
  *
  * @author tintti
  */
-public class MinHeapTest {
+public class BinaryHeapTest {
 
-    private MinHeap heap;
+    private BinaryHeap heap;
 
-    public MinHeapTest() {
+    public BinaryHeapTest() {
     }
 
     @BeforeClass
@@ -33,13 +33,13 @@ public class MinHeapTest {
 
     @Before
     public void setUp() {
-        heap = new MinHeap(6);
+        heap = new BinaryHeap(6);
         Node n1 = new Node(0, 0, 0, 1);
         Node n2 = new Node(1, 1, 0, 1);
         n1.setCost(5);
         n2.setCost(2);
-        heap.heapInsert(n1);
-        heap.heapInsert(n2);
+        heap.insert(n1);
+        heap.insert(n2);
     }
 
     @After
@@ -48,7 +48,7 @@ public class MinHeapTest {
 
     @Test
     public void newHeapIsEmpty() {
-        heap = new MinHeap(6);
+        heap = new BinaryHeap(6);
         assertTrue(heap.isEmpty());
     }
 
@@ -59,37 +59,37 @@ public class MinHeapTest {
 
     @Test
     public void heapSizeGrowsWhenNodeIsAdded() {
-        heap.heapInsert(new Node(2, 0, 1, 1));
+        heap.insert(new Node(2, 0, 1, 1));
         assertEquals(3, heap.size());
     }
 
     @Test
     public void nodeHasCorrectHeapIndexWhenAdded() {
-        assertEquals(1, heap.heapMin().getHeapIndex());
+        assertEquals(1, heap.peek().getHeapIndex());
     }
 
     @Test
     public void heapDelMinReturnsTheMinNode() {
-        assertEquals(2, heap.heapDelMin().getCost());
+        assertEquals(2, heap.delMin().getCost());
     }
 
     @Test
     public void nodeIsInTheRightPlaceAfterDecKey() {
-        heap.heapDecKey(heap.getHeap()[2], 1);
-        assertEquals(1, heap.heapMin().getCost());
+        heap.decreaseKey(heap.getHeap()[2], 1);
+        assertEquals(1, heap.peek().getCost());
     }
 
     @Test
     public void nodeHasRightHeapIndexAfteDecKey() {
         Node n = heap.getHeap()[2];
-        heap.heapDecKey(n, 1);
+        heap.decreaseKey(n, 1);
 
         assertEquals(1, n.getHeapIndex());
     }
 
     @Test
     public void heapSizeDecreasesAfterDelMin() {
-        heap.heapDelMin();
+        heap.delMin();
         assertEquals(1, heap.size());
     }
 

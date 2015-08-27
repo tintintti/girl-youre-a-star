@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Dijkstra.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;GirlYoureAStar&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">girlyoureastar.algorithms</a> &gt; <span class="el_source">Dijkstra.java</span></div><h1>Dijkstra.java</h1><pre class="source lang-java linenums">package girlyoureastar.algorithms;
 
-import girlyoureastar.datastructures.Graph;
-import girlyoureastar.datastructures.Node;
-import girlyoureastar.datastructures.MinHeap;
-import java.util.ArrayList;
-import java.util.PriorityQueue;
-import java.util.Stack;
+import girlyoureastar.datastructures.*;
 
 /**
  * Luokka tarjoaa metodin lyhimmän reitin etsimiseen verkosta Dijkstran
@@ -18,54 +13,71 @@ public class Dijkstra {
     private MinHeap open;
     private int[] costSoFar;
 
-<span class="fc" id="L21">    public Dijkstra(Graph graph) {</span>
-<span class="fc" id="L22">        this.graph = graph;</span>
-<span class="fc" id="L23">        this.costSoFar = new int[graph.length()];</span>
-<span class="fc" id="L24">        this.open = new MinHeap(graph.length());</span>
-<span class="fc" id="L25">    }</span>
+<span class="fc" id="L16">    public Dijkstra(Graph graph, boolean fibonacci) {</span>
+<span class="fc" id="L17">        this.graph = graph;</span>
+<span class="fc" id="L18">        this.costSoFar = new int[graph.length()];</span>
+<span class="pc bpc" id="L19" title="1 of 2 branches missed.">        if (fibonacci) {</span>
+<span class="nc" id="L20">            open = new FibonacciHeap();</span>
+        } else {
+<span class="fc" id="L22">            open = new BinaryHeap(graph.length());</span>
+        }
+<span class="fc" id="L24">    }</span>
 
     /**
      * Metodi etsii lyhimmän reitin alku- ja loppupisteen välillä.
-     * 
-     * @param start     reitin alkupiste
-     * @param finish    reitin loppupiste
-     * @return          lyhimmän reitin solmut sisältävä pino
+     *
+     * @param start reitin alkupiste
+     * @param finish reitin loppupiste
+     * @return lyhimmän reitin solmut sisältävä pino
      */
     public Stack findRoute(Node start, Node finish) {
-<span class="fc" id="L35">        open.heapInsert(start);</span>
-<span class="fc" id="L36">        start.setCost(0);</span>
+<span class="fc" id="L34">        start.setCost(0);</span>
+<span class="fc" id="L35">        open.insert(start);</span>
 
-<span class="fc bfc" id="L38" title="All 2 branches covered.">        while (!open.isEmpty()) {</span>
-<span class="fc" id="L39">            Node current = open.heapDelMin();</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">        while (!open.isEmpty()) {</span>
+<span class="fc" id="L38">            Node current = open.delMin();</span>
 
-<span class="fc bfc" id="L41" title="All 2 branches covered.">            if (current.equals(finish)) {</span>
-<span class="fc" id="L42">                return shortestPathInAStack(current);</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">            if (current.equals(finish)) {</span>
+<span class="fc" id="L41">                return shortestPathInAStack(current);</span>
             }
 
-<span class="fc" id="L45">            ArrayList&lt;Node&gt; neighbors = graph.getEdges()[current.getNodeId()];</span>
+<span class="fc" id="L44">            LinkedList neighbors = graph.getEdges()[current.getNodeId()];</span>
 
-<span class="fc bfc" id="L47" title="All 2 branches covered.">            for (Node next : neighbors) {</span>
-<span class="fc" id="L48">                int newCost = current.getCost() + next.getCostOfMovement();</span>
-<span class="fc bfc" id="L49" title="All 4 branches covered.">                if (next.getCost() == -1 || next.getCost() &gt; newCost) {</span>
-<span class="fc" id="L50">                    open.heapDecKey(next, newCost);</span>
-<span class="fc" id="L51">                    open.heapInsert(next);</span>
-<span class="fc" id="L52">                    next.setParent(current);</span>
-                }
-<span class="fc" id="L54">            }</span>
-<span class="fc" id="L55">        }</span>
+<span class="fc" id="L46">            updateNeighbors(neighbors, current);</span>
+<span class="fc" id="L47">        }</span>
 
-<span class="fc" id="L57">        return null;</span>
+<span class="fc" id="L49">        return null;</span>
     }
 
-    private Stack shortestPathInAStack(Node end) {
-<span class="fc" id="L61">        Stack path = new Stack();</span>
+    private void updateNeighbors(LinkedList neighbors, Node current) {
+<span class="fc" id="L53">        LinkedListNode nextListNode = neighbors.getHead();</span>
+<span class="fc bfc" id="L54" title="All 2 branches covered.">        while (nextListNode != null) {</span>
+<span class="fc" id="L55">            Node next = nextListNode.getKey();</span>
+<span class="fc" id="L56">            int newCost = current.getCost() + next.getCostOfMovement();</span>
 
-<span class="fc bfc" id="L63" title="All 2 branches covered.">        while (end != null) {</span>
-<span class="fc" id="L64">            path.push(end);</span>
-<span class="fc" id="L65">            end = end.getParent();</span>
+<span class="fc bfc" id="L58" title="All 2 branches covered.">            if (next.getCost() == -1) {</span>
+<span class="fc" id="L59">                next.setCost(newCost);</span>
+<span class="fc" id="L60">                open.insert(next);</span>
+<span class="fc" id="L61">                next.setParent(current);</span>
+<span class="pc bpc" id="L62" title="1 of 2 branches missed.">            } else if (next.getCost() &gt; newCost) {</span>
+<span class="nc" id="L63">                next.setCost(newCost);</span>
+<span class="nc" id="L64">                open.decreaseKey(next, newCost);</span>
+<span class="nc" id="L65">                next.setParent(current);</span>
+            }
+            
+<span class="fc" id="L68">            nextListNode = nextListNode.getNext();</span>
+<span class="fc" id="L69">        }</span>
+<span class="fc" id="L70">    }</span>
+
+    private Stack shortestPathInAStack(Node end) {
+<span class="fc" id="L73">        Stack path = new Stack(graph.length());</span>
+
+<span class="fc bfc" id="L75" title="All 2 branches covered.">        while (end != null) {</span>
+<span class="fc" id="L76">            path.push(end);</span>
+<span class="fc" id="L77">            end = end.getParent();</span>
         }
 
-<span class="fc" id="L68">        return path;</span>
+<span class="fc" id="L80">        return path;</span>
     }
 
 }

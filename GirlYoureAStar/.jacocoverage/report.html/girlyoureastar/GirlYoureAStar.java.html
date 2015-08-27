@@ -1,78 +1,124 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>GirlYoureAStar.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;GirlYoureAStar&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">girlyoureastar</a> &gt; <span class="el_source">GirlYoureAStar.java</span></div><h1>GirlYoureAStar.java</h1><pre class="source lang-java linenums">package girlyoureastar;
 
-import girlyoureastar.datastructures.Graph;
-import girlyoureastar.datastructures.Node;
-import girlyoureastar.algorithms.Astar;
-import girlyoureastar.algorithms.Dijkstra;
-import java.util.Stack;
+import girlyoureastar.algorithms.*;
+import girlyoureastar.datastructures.*;
+import java.util.LinkedList;
 
-<span class="nc" id="L9">public class GirlYoureAStar {</span>
+<span class="nc" id="L7">public class GirlYoureAStar {</span>
 
     public static void main(String[] args) {
 
+<span class="nc" id="L11">        int[][] map = new int[11][21];</span>
+
+<span class="nc" id="L13">        map[1][0] = 9;</span>
+<span class="nc" id="L14">        map[1][1] = 9;</span>
+<span class="nc" id="L15">        map[1][2] = 9;</span>
+<span class="nc" id="L16">        map[1][4] = 9;</span>
+<span class="nc" id="L17">        map[3][4] = 9;</span>
+<span class="nc" id="L18">        map[3][3] = 9;</span>
+<span class="nc" id="L19">        map[3][2] = 9;</span>
+<span class="nc" id="L20">        map[3][0] = 9;</span>
+<span class="nc" id="L21">        map[4][0] = 9;</span>
+<span class="nc" id="L22">        map[4][1] = 3;</span>
+<span class="nc" id="L23">        map[3][1] = 3;</span>
+<span class="nc" id="L24">        map[4][2] = 9;</span>
+<span class="nc" id="L25">        map[5][5] = 9;</span>
+<span class="nc" id="L26">        map[6][5] = 9;</span>
+
+<span class="nc" id="L28">        Graph g = new Graph(map);</span>
         
+
+<span class="nc" id="L31">        System.out.println(g);</span>
+
+<span class="nc" id="L33">        Node[][] nodes1 = g.getNodes();</span>
+
+<span class="nc" id="L35">        Node start = nodes1[0][0];</span>
+<span class="nc" id="L36">        Node finish = nodes1[10][0];</span>
         
-<span class="nc" id="L15">        int[][] map = new int[6][6];</span>
 
-<span class="nc" id="L17">        map[1][0] = 9;</span>
-<span class="nc" id="L18">        map[1][1] = 9;</span>
-<span class="nc" id="L19">        map[1][2] = 9;</span>
-<span class="nc" id="L20">        map[1][4] = 9;</span>
-<span class="nc" id="L21">        map[3][4] = 9;</span>
-<span class="nc" id="L22">        map[3][3] = 9;</span>
-<span class="nc" id="L23">        map[3][2] = 9;</span>
-<span class="nc" id="L24">        map[3][0] = 9;</span>
-<span class="nc" id="L25">        map[4][0] = 9;</span>
-<span class="nc" id="L26">        map[4][1] = 9;</span>
-<span class="nc" id="L27">        map[4][2] = 9;</span>
-<span class="nc" id="L28">        map[2][0] = 9;</span>
-        
-<span class="nc" id="L30">        Graph g = new Graph(map);</span>
-
-<span class="nc" id="L32">        System.out.println(g);</span>
-
-<span class="nc" id="L34">        Node[][] nodes = g.getNodes();</span>
-
-<span class="nc" id="L36">        Node start = nodes[0][0];</span>
-<span class="nc" id="L37">        Node finish = nodes[5][0];</span>
-
-<span class="nc" id="L39">        Astar a = new Astar(g);</span>
-<span class="nc" id="L40">        Dijkstra d = new Dijkstra(g);</span>
+<span class="nc" id="L39">        Astar a = new Astar(g, false);</span>
+<span class="nc" id="L40">        Dijkstra d = new Dijkstra(g, false);</span>
 
 <span class="nc" id="L42">        Stack path = a.findRoute(start, finish);</span>
 
-<span class="nc bnc" id="L44" title="All 2 branches missed.">        while (!path.isEmpty()) {</span>
-<span class="nc" id="L45">            System.out.println(path.pop());</span>
+//        System.out.println(&quot;&quot;);
+//        if (path1 != null) {
+//            while (!path1.isEmpty()) {
+//                Node n = path1.pop();
+//                System.out.println(n + &quot; &quot; + n.getCost());
+//            }
+//        }
+        
+<span class="nc" id="L52">        printMap(g, finish);</span>
+<span class="nc" id="L53">        System.out.println(&quot;Matkan pituus: &quot; + finish.getCost());</span>
+
+        
+
+<span class="nc" id="L57">    }</span>
+
+    public static void printIdAndCost(Node n) {
+<span class="nc bnc" id="L60" title="All 2 branches missed.">        if (n == null) {</span>
+<span class="nc" id="L61">            System.out.println(n);</span>
+        } else {
+<span class="nc" id="L63">            System.out.println(&quot;id: &quot; + n.getNodeId() + &quot; cost: &quot; + n.getCost());</span>
+<span class="nc" id="L64">            System.out.println(n.getFiboNode().getPrev().getNode());</span>
+<span class="nc" id="L65">            System.out.println(n.getFiboNode().getNext().getNode());</span>
         }
+<span class="nc" id="L67">    }</span>
 
-<span class="nc" id="L48">        printMap(g, finish);</span>
-        
-        
+    public static void printTrees(FibonacciHeap heap) {
+<span class="nc" id="L70">        System.out.println(&quot;tulostetaan puu:&quot;);</span>
+<span class="nc" id="L71">        FiboNode start = heap.getFirst();</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">        if (start == null) {</span>
+<span class="nc" id="L73">            System.out.println(start);</span>
+<span class="nc" id="L74">            return;</span>
+        }
+        do {
+<span class="nc" id="L77">            LinkedList&lt;FiboNode&gt; q = new LinkedList&lt;&gt;();</span>
+<span class="nc" id="L78">            q.add(start);</span>
 
-<span class="nc" id="L52">    }</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">            while (!q.isEmpty()) {</span>
+<span class="nc" id="L81">                FiboNode n = q.poll();</span>
+<span class="nc" id="L82">                System.out.print(&quot;[id: &quot; + n.getNode().getNodeId() + &quot; cost: &quot; </span>
+                        + n.getNode().getCost() + &quot; d: &quot; + n.getDegree() 
+                    + &quot; prev: &quot; + n.getPrev().getNode()
+                    + &quot; next: &quot; + n.getNext().getNode() + &quot;] &quot;);
+<span class="nc bnc" id="L86" title="All 2 branches missed.">                if (n.getChild() != null) {</span>
+<span class="nc" id="L87">                    FiboNode child = n.getChild();</span>
+                    do {
+<span class="nc" id="L89">                        q.add(child);</span>
+<span class="nc" id="L90">                        child = child.getNext();</span>
+<span class="nc bnc" id="L91" title="All 2 branches missed.">                    } while (child != n.getChild());</span>
+                }
+<span class="nc" id="L93">            }</span>
+<span class="nc" id="L94">            System.out.println(&quot;&quot;);</span>
+<span class="nc" id="L95">            start = start.getNext();</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">        } while (start != heap.getFirst());</span>
+<span class="nc" id="L97">        System.out.println(&quot;----------------&quot;);</span>
+<span class="nc" id="L98">    }</span>
 
     public static void printMap(Graph g, Node n) {
-<span class="nc" id="L55">        int[][] map = g.getMap();</span>
+<span class="nc" id="L101">        int[][] map = g.getMap();</span>
 
-<span class="nc bnc" id="L57" title="All 2 branches missed.">        while (n != null) {</span>
-<span class="nc" id="L58">            map[n.getX()][n.getY()] = 10;</span>
-<span class="nc" id="L59">            n = n.getParent();</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">        while (n != null) {</span>
+<span class="nc" id="L104">            map[n.getX()][n.getY()] = 10;</span>
+<span class="nc" id="L105">            n = n.getParent();</span>
         }
 
-<span class="nc bnc" id="L62" title="All 2 branches missed.">        for (int i = 0; i &lt; map.length; i++) {</span>
-<span class="nc bnc" id="L63" title="All 2 branches missed.">            for (int j = 0; j &lt; map[0].length; j++) {</span>
-<span class="nc bnc" id="L64" title="All 2 branches missed.">                if (map[i][j] == 9) {</span>
-<span class="nc" id="L65">                    System.out.print(&quot;#&quot;);</span>
-<span class="nc bnc" id="L66" title="All 2 branches missed.">                } else if (map[i][j] == 10) {</span>
-<span class="nc" id="L67">                    System.out.print(&quot;.&quot;);</span>
+<span class="nc bnc" id="L108" title="All 2 branches missed.">        for (int i = 0; i &lt; map.length; i++) {</span>
+<span class="nc bnc" id="L109" title="All 2 branches missed.">            for (int j = 0; j &lt; map[0].length; j++) {</span>
+<span class="nc bnc" id="L110" title="All 2 branches missed.">                if (map[i][j] == 9) {</span>
+<span class="nc" id="L111">                    System.out.print(&quot;#&quot;);</span>
+<span class="nc bnc" id="L112" title="All 2 branches missed.">                } else if (map[i][j] == 10) {</span>
+<span class="nc" id="L113">                    System.out.print(&quot;.&quot;);</span>
                 } else {
-<span class="nc" id="L69">                    System.out.print(&quot; &quot;);</span>
+<span class="nc" id="L115">                    System.out.print(map[i][j] + 1);</span>
                 }
             }
-<span class="nc" id="L72">            System.out.println(&quot;&quot;);</span>
+<span class="nc" id="L118">            System.out.println(&quot;&quot;);</span>
         }
 
-<span class="nc" id="L75">    }</span>
+<span class="nc" id="L121">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

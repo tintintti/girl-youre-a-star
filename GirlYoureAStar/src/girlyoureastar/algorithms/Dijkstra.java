@@ -1,10 +1,6 @@
 package girlyoureastar.algorithms;
 
-import girlyoureastar.datastructures.Graph;
-import girlyoureastar.datastructures.Node;
-import girlyoureastar.datastructures.MinHeap;
-import girlyoureastar.datastructures.Stack;
-import java.util.ArrayList;
+import girlyoureastar.datastructures.*;
 
 /**
  * Luokka tarjoaa metodin lyhimmän reitin etsimiseen verkosta Dijkstran
@@ -17,10 +13,14 @@ public class Dijkstra {
     private MinHeap open;
     private int[] costSoFar;
 
-    public Dijkstra(Graph graph) {
+    public Dijkstra(Graph graph, boolean fibonacci) {
         this.graph = graph;
         this.costSoFar = new int[graph.length()];
-        this.open = new MinHeap(graph.length());
+        if (fibonacci) {
+            open = new FibonacciHeap();
+        } else {
+            open = new BinaryHeap(graph.length());
+        }
     }
 
     /**
@@ -31,36 +31,44 @@ public class Dijkstra {
      * @return lyhimmän reitin solmut sisältävä pino
      */
     public Stack findRoute(Node start, Node finish) {
-        open.heapInsert(start);
         start.setCost(0);
+        open.insert(start);
 
         while (!open.isEmpty()) {
-            Node current = open.heapDelMin();
+            Node current = open.delMin();
 
             if (current.equals(finish)) {
                 return shortestPathInAStack(current);
             }
 
-            ArrayList<Node> neighbors = graph.getEdges()[current.getNodeId()];
+            LinkedList neighbors = graph.getEdges()[current.getNodeId()];
 
             updateNeighbors(neighbors, current);
         }
 
         return null;
     }
+    
 
-    private void updateNeighbors(ArrayList<Node> neighbors, Node current) {
-        for (Node next : neighbors) {
+    private void updateNeighbors(LinkedList neighbors, Node current) {
+
+        LinkedListNode nextListNode = neighbors.getHead();
+
+        while (nextListNode != null) {
+            Node next = nextListNode.getKey();
             int newCost = current.getCost() + next.getCostOfMovement();
-            
+
             if (next.getCost() == -1) {
                 next.setCost(newCost);
-                open.heapInsert(next);
+                open.insert(next);
                 next.setParent(current);
             } else if (next.getCost() > newCost) {
-                open.heapDecKey(next, newCost);
+                next.setCost(newCost);
+                open.decreaseKey(next, newCost);
                 next.setParent(current);
             }
+
+            nextListNode = nextListNode.getNext();
         }
     }
 

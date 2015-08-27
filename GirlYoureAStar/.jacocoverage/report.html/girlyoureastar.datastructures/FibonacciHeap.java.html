@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>FibonacciHeap.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;GirlYoureAStar&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">girlyoureastar.datastructures</a> &gt; <span class="el_source">FibonacciHeap.java</span></div><h1>FibonacciHeap.java</h1><pre class="source lang-java linenums">package girlyoureastar.datastructures;
+
+/**
+ * Luokka tarjoaa metodit Nodejen tallentamiseen Fibonacci-minimikekoon ja
+ * cost-arvoltaan pienimmän Noden löytämiseen.
+ *
+ */
+public class FibonacciHeap implements MinHeap {
+
+    private FiboNode minNode;
+    private int size;
+
+<span class="fc" id="L13">    public FibonacciHeap() {</span>
+<span class="fc" id="L14">        minNode = null;</span>
+<span class="fc" id="L15">        size = 0;</span>
+<span class="fc" id="L16">    }</span>
+
+    /**
+     *
+     * @return cost-arvoltaan pienin Node
+     */
+    @Override
+    public Node peek() {
+<span class="fc bfc" id="L24" title="All 2 branches covered.">        if (minNode == null) {</span>
+<span class="fc" id="L25">            return null;</span>
+        }
+<span class="fc" id="L27">        return minNode.getNode();</span>
+    }
+
+    public FiboNode getFirst() {
+<span class="nc" id="L31">        return minNode;</span>
+    }
+
+    /**
+     * Metodi lisää kekoon annetun alkion ja päivittää minNode-arvon jos annettu
+     * Node on cost-arvoltaan pienempi kuin muut keossa olevat Nodet.
+     *
+     * @param node lisättävä Node
+     */
+    @Override
+    public void insert(Node node) {
+<span class="fc" id="L42">        FiboNode fnode = new FiboNode(node);</span>
+
+<span class="fc" id="L44">        node.setFiboNode(fnode);</span>
+<span class="fc" id="L45">        fnode.setNext(fnode);</span>
+<span class="fc" id="L46">        fnode.setPrev(fnode);</span>
+
+<span class="fc" id="L48">        minNode = mergeLists(minNode, fnode);</span>
+
+<span class="fc" id="L50">        size++;</span>
+<span class="fc" id="L51">    }</span>
+
+    private FiboNode mergeLists(FiboNode node1, FiboNode node2) {
+<span class="fc bfc" id="L54" title="All 4 branches covered.">        if (node1 == null &amp;&amp; node2 == null) {</span>
+<span class="fc" id="L55">            return null;</span>
+        }
+<span class="fc bfc" id="L57" title="All 2 branches covered.">        if (node1 == null) {</span>
+<span class="fc" id="L58">            return node2;</span>
+        }
+<span class="fc bfc" id="L60" title="All 2 branches covered.">        if (node2 == null) {</span>
+<span class="fc" id="L61">            return node1;</span>
+        }
+
+<span class="fc" id="L64">        FiboNode node1Next = node1.getNext();</span>
+<span class="fc" id="L65">        FiboNode node2Next = node2.getNext();</span>
+
+<span class="fc" id="L67">        node1.setNext(node2Next);</span>
+<span class="fc" id="L68">        node2Next.setPrev(node1);</span>
+
+<span class="fc" id="L70">        node2.setNext(node1Next);</span>
+<span class="fc" id="L71">        node1Next.setPrev(node2);</span>
+
+<span class="fc bfc" id="L73" title="All 2 branches covered.">        if (node1.compareTo(node2) &lt; 0) {</span>
+<span class="fc" id="L74">            return node1;</span>
+        }
+<span class="fc" id="L76">        return node2;</span>
+    }
+
+    @Override
+    public boolean isEmpty() {
+<span class="pc bpc" id="L81" title="1 of 2 branches missed.">        return minNode == null;</span>
+    }
+
+    /**
+     * Poistaa keosta pienimmän alkion. Järjestää samalla keon niin, ettei siitä
+     * löydy kahta puuta, jolla olisi yhtä monta lasta. Asettaa minNodeen keon
+     * pienimmän alkion poistetun tilalle.
+     *
+     * @return keon cost-arvoltaan pienin Node
+     */
+    @Override
+    public Node delMin() {
+<span class="fc" id="L93">        FiboNode min = minNode;</span>
+
+<span class="pc bpc" id="L95" title="1 of 2 branches missed.">        if (minNode == null) {</span>
+<span class="nc" id="L96">            return null;</span>
+        }
+
+<span class="fc bfc" id="L99" title="All 2 branches covered.">        if (min.getNext() == min) {</span>
+<span class="fc" id="L100">            minNode = null;</span>
+        } else {
+<span class="fc" id="L102">            minNode = min.getNext();</span>
+        }
+
+<span class="fc bfc" id="L105" title="All 2 branches covered.">        if (min.getChild() != null) {</span>
+<span class="fc" id="L106">            removeParentFromChildren(min);</span>
+        }
+
+<span class="fc" id="L109">        removeNodeFromList(min);</span>
+<span class="fc" id="L110">        size--;</span>
+
+<span class="fc" id="L112">        minNode = mergeLists(minNode, min.getChild());</span>
+
+<span class="fc bfc" id="L114" title="All 2 branches covered.">        if (minNode != null) {</span>
+<span class="fc" id="L115">            consolidate();</span>
+        }
+
+<span class="fc" id="L118">        return min.getNode();</span>
+    }
+
+    private void removeParentFromChildren(FiboNode parent) {
+<span class="fc" id="L122">        FiboNode current = parent.getChild();</span>
+        do {
+<span class="fc" id="L124">            current.setParent(null);</span>
+<span class="fc" id="L125">            current = current.getNext();</span>
+<span class="pc bpc" id="L126" title="1 of 2 branches missed.">        } while (current != parent.getChild());</span>
+<span class="fc" id="L127">    }</span>
+
+    private void removeNodeFromList(FiboNode node) {
+<span class="fc" id="L130">        FiboNode next = node.getNext();</span>
+<span class="fc" id="L131">        FiboNode prev = node.getPrev();</span>
+
+<span class="fc" id="L133">        next.setPrev(prev);</span>
+<span class="fc" id="L134">        prev.setNext(next);</span>
+<span class="fc" id="L135">    }</span>
+
+    private void consolidate() {
+<span class="fc" id="L138">        FiboNode[] nodesByDegree = new FiboNode[45];</span>
+
+<span class="fc" id="L140">        FiboNode start = minNode;</span>
+<span class="fc" id="L141">        FiboNode current = minNode;</span>
+
+        do {
+<span class="fc" id="L144">            FiboNode next = current.getNext();</span>
+
+<span class="fc" id="L146">            int degree = current.getDegree();</span>
+<span class="fc" id="L147">            FiboNode min = current;</span>
+<span class="fc" id="L148">            FiboNode max = null;</span>
+
+<span class="fc bfc" id="L150" title="All 2 branches covered.">            while (nodesByDegree[degree] != null) {</span>
+
+<span class="fc" id="L152">                FiboNode sameDegreeNode = nodesByDegree[degree];</span>
+<span class="pc bpc" id="L153" title="1 of 2 branches missed.">                if (current.compareTo(sameDegreeNode) &gt; 0) {</span>
+<span class="nc" id="L154">                    max = current;</span>
+<span class="nc" id="L155">                    min = sameDegreeNode;</span>
+                } else {
+<span class="fc" id="L157">                    max = sameDegreeNode;</span>
+                }
+
+<span class="fc bfc" id="L160" title="All 2 branches covered.">                if (max == start) {</span>
+<span class="fc" id="L161">                    start = start.getNext();</span>
+                }
+
+<span class="fc bfc" id="L164" title="All 2 branches covered.">                if (max == next) {</span>
+<span class="fc" id="L165">                    next = next.getNext();</span>
+                }
+
+<span class="fc" id="L168">                setNodeAsChild(min, max);</span>
+<span class="fc" id="L169">                nodesByDegree[degree] = null;</span>
+<span class="fc" id="L170">                degree++;</span>
+
+<span class="fc" id="L172">            }</span>
+
+<span class="fc" id="L174">            nodesByDegree[degree] = min;</span>
+<span class="fc" id="L175">            current = next;</span>
+
+<span class="fc bfc" id="L177" title="All 2 branches covered.">        } while (current != start);</span>
+
+<span class="fc bfc" id="L179" title="All 2 branches covered.">        for (FiboNode node : nodesByDegree) {</span>
+<span class="fc bfc" id="L180" title="All 4 branches covered.">            if (node != null &amp;&amp; node.compareTo(minNode) &lt; 0) {</span>
+<span class="fc" id="L181">                minNode = node;</span>
+            }
+        }
+
+<span class="fc" id="L185">    }</span>
+
+    private void setNodeAsChild(FiboNode parent, FiboNode child) {
+<span class="fc" id="L188">        FiboNode childPrev = child.getPrev();</span>
+<span class="fc" id="L189">        FiboNode childNext = child.getNext();</span>
+        
+<span class="fc" id="L191">        childPrev.setNext(childNext);</span>
+<span class="fc" id="L192">        childNext.setPrev(childPrev);</span>
+
+<span class="fc" id="L194">        child.setParent(parent);</span>
+
+<span class="fc bfc" id="L196" title="All 2 branches covered.">        if (parent.getChild() == null) {</span>
+<span class="fc" id="L197">            parent.setChild(child);</span>
+<span class="fc" id="L198">            child.setNext(child);</span>
+<span class="fc" id="L199">            child.setPrev(child);</span>
+        } else {
+<span class="fc" id="L201">            FiboNode originalChild = parent.getChild();</span>
+            
+<span class="fc" id="L203">            child.setPrev(originalChild);</span>
+<span class="fc" id="L204">            child.setNext(originalChild.getNext());</span>
+<span class="fc" id="L205">            originalChild.getNext().setPrev(child);</span>
+<span class="fc" id="L206">            originalChild.setNext(child);</span>
+            
+
+        }
+        
+<span class="fc" id="L211">        parent.increaseDegree();</span>
+<span class="fc" id="L212">        child.setMarked(false);</span>
+<span class="fc" id="L213">    }</span>
+
+    /**
+     * Metodi palauttaa keon koon, eli sen kuinka monta alkiota keossa on
+     *
+     * @return keon koko
+     */
+    @Override
+    public int size() {
+<span class="fc" id="L222">        return size;</span>
+    }
+
+    /**
+     * Muuttaa annetun Noden cost-arvon annetuksi jos se on pienempi kuin
+     * alkuperäinen ja siirtää Noden oikealle paikalleen keossa.
+     *
+     * @param node Node, jonka arvoa muutetaan
+     * @param newValue uusi arvo
+     */
+    @Override
+    public void decreaseKey(Node node, int newValue) {
+<span class="nc bnc" id="L234" title="All 2 branches missed.">        if (newValue &gt; node.getCost()) {</span>
+<span class="nc" id="L235">            return;</span>
+        }
+
+<span class="nc" id="L238">        node.setCost(newValue);</span>
+
+<span class="nc" id="L240">        FiboNode fnode = node.getFiboNode();</span>
+<span class="nc" id="L241">        FiboNode parent = fnode.getParent();</span>
+
+<span class="nc bnc" id="L243" title="All 4 branches missed.">        if (parent != null &amp;&amp; fnode.compareTo(parent) &lt; 0) {</span>
+<span class="nc" id="L244">            cut(fnode, parent);</span>
+<span class="nc" id="L245">            cascadingCut(parent);</span>
+        }
+
+<span class="nc" id="L248">    }</span>
+
+    private void cut(FiboNode node, FiboNode parent) {
+<span class="nc" id="L251">        removeNodeFromList(node);</span>
+<span class="nc" id="L252">        parent.decreaseDegree();</span>
+<span class="nc" id="L253">        mergeLists(minNode, node);</span>
+<span class="nc" id="L254">        node.setMarked(false);</span>
+<span class="nc" id="L255">    }</span>
+
+    private void cascadingCut(FiboNode node) {
+<span class="nc" id="L258">        FiboNode parent = node.getParent();</span>
+<span class="nc bnc" id="L259" title="All 2 branches missed.">        if (parent != null) {</span>
+<span class="nc bnc" id="L260" title="All 2 branches missed.">            if (node.isMarked()) {</span>
+<span class="nc" id="L261">                cut(node, parent);</span>
+<span class="nc" id="L262">                cascadingCut(parent);</span>
+            } else {
+<span class="nc" id="L264">                node.setMarked(true);</span>
+            }
+        }
+<span class="nc" id="L267">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -17,6 +17,7 @@ public class Node implements Comparable<Node> {
     private Node parent;
     private boolean passable;
     private int heapIndex;
+    private FiboNode fiboNode;
 
     public Node(int nodeId, int x, int y, int costOfMovement) {
         this.nodeId = nodeId;
@@ -133,6 +134,14 @@ public class Node implements Comparable<Node> {
         this.heapIndex = heapIndex;
     }
 
+    public FiboNode getFiboNode() {
+        return fiboNode;
+    }
+
+    public void setFiboNode(FiboNode fiboNode) {
+        this.fiboNode = fiboNode;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -153,7 +162,7 @@ public class Node implements Comparable<Node> {
 
     @Override
     public String toString() {
-        return "(" + x + ", " + y + ")";
+        return nodeId + " (" + x + ", " + y + ") cost: " + cost;
     }
 
 }

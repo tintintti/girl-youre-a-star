@@ -1,6 +1,5 @@
 package girlyoureastar.datastructures;
 
-import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -44,7 +43,7 @@ public class GraphTest {
 
     @Test
     public void edgesIsSameLengthAsTheAmountOfNodesInTheMap() {
-        ArrayList<Node>[] edges = g.getEdges();
+        LinkedList[] edges = g.getEdges();
 
         assertEquals(map.length * map[0].length, edges.length);
     }
