@@ -1,11 +1,11 @@
-
 package girlyoureastar.datastructures;
 
 /**
  * Luokkaan tallennetaan LinkedList-luokan yksittäiset solmut.
- * 
+ *
  */
 public class LinkedListNode {
+
     Node key;
     LinkedListNode next;
 
@@ -13,7 +13,7 @@ public class LinkedListNode {
         this.key = key;
         next = null;
     }
-    
+
     /**
      * @return solmuun tallennettu Node
      */
@@ -41,8 +41,5 @@ public class LinkedListNode {
     public void setNext(LinkedListNode next) {
         this.next = next;
     }
-    
-    
-    
-    
+
 }

@@ -7,7 +7,7 @@ package girlyoureastar.datastructures;
  */
 public class FibonacciHeap implements MinHeap {
 
-    private FiboNode minNode;
+    private FNode minNode;
     private int size;
 
     public FibonacciHeap() {
@@ -27,53 +27,38 @@ public class FibonacciHeap implements MinHeap {
         return minNode.getNode();
     }
 
-    public FiboNode getFirst() {
-        return minNode;
-    }
-
     /**
      * Metodi lisää kekoon annetun alkion ja päivittää minNode-arvon jos annettu
      * Node on cost-arvoltaan pienempi kuin muut keossa olevat Nodet.
      *
-     * @param node lisättävä Node
+     * @param value lisättävä Node
      */
     @Override
-    public void insert(Node node) {
-        FiboNode fnode = new FiboNode(node);
+    public void insert(Node value) {
+        FNode node = new FNode(value);
+        // Nodeen viite siihen viittaavaan FNodeen
+        value.setFNode(node);
+        //FNoden next ja prev osoittamaan itseensä
+        node.setRight(node);
+        node.setLeft(node);
 
-        node.setFiboNode(fnode);
-        fnode.setNext(fnode);
-        fnode.setPrev(fnode);
+        // lisää solmun minNoden jälkeen root-listaan
+        if (minNode != null) {
+            node.setRight(minNode);
+            node.setLeft(minNode.getLeft());
+            minNode.setLeft(node);
+            node.getLeft().setRight(node);
 
-        minNode = mergeLists(minNode, fnode);
+            // asettaa lisätyn solmun pienimmäksi jos se on pienempi kuin 
+            // aikaisempi minimi
+            if (node.getKey() < minNode.getKey()) {
+                minNode = node;
+            }
+        } else {
+            minNode = node;
+        }
 
         size++;
-    }
-
-    private FiboNode mergeLists(FiboNode node1, FiboNode node2) {
-        if (node1 == null && node2 == null) {
-            return null;
-        }
-        if (node1 == null) {
-            return node2;
-        }
-        if (node2 == null) {
-            return node1;
-        }
-
-        FiboNode node1Next = node1.getNext();
-        FiboNode node2Next = node2.getNext();
-
-        node1.setNext(node2Next);
-        node2Next.setPrev(node1);
-
-        node2.setNext(node1Next);
-        node1Next.setPrev(node2);
-
-        if (node1.compareTo(node2) < 0) {
-            return node1;
-        }
-        return node2;
     }
 
     @Override
@@ -90,82 +75,88 @@ public class FibonacciHeap implements MinHeap {
      */
     @Override
     public Node delMin() {
-        FiboNode min = minNode;
+        FNode z = minNode;
 
-        if (minNode == null) {
+        if (z == null) {
             return null;
         }
 
-        if (min.getNext() == min) {
+        if (z.getChild() != null) {
+            removeParentFromChildren(z);
+
+            // lisää lapset root-listaan
+            FNode minNodeLeft = minNode.getLeft();
+            FNode minChildLeft = z.getChild().getLeft();
+            minNode.setLeft(minChildLeft);
+            minChildLeft.setRight(minNode);
+            z.getChild().setLeft(minNodeLeft);
+            minNodeLeft.setRight(z.getChild());
+
+        }
+
+        removeNodeFromList(z);
+        
+
+        if (z.getRight() == z) {
             minNode = null;
         } else {
-            minNode = min.getNext();
-        }
-
-        if (min.getChild() != null) {
-            removeParentFromChildren(min);
-        }
-
-        removeNodeFromList(min);
-        size--;
-
-        minNode = mergeLists(minNode, min.getChild());
-
-        if (minNode != null) {
+            minNode = z.getRight();
             consolidate();
         }
 
-        return min.getNode();
+        size--;
+
+        return z.getNode();
     }
 
-    private void removeParentFromChildren(FiboNode parent) {
-        FiboNode current = parent.getChild();
+    private void removeParentFromChildren(FNode parent) {
+        FNode current = parent.getChild();
         do {
             current.setParent(null);
-            current = current.getNext();
+            current = current.getRight();
         } while (current != parent.getChild());
     }
 
-    private void removeNodeFromList(FiboNode node) {
-        FiboNode next = node.getNext();
-        FiboNode prev = node.getPrev();
+    private void removeNodeFromList(FNode node) {
+        FNode next = node.getRight();
+        FNode prev = node.getLeft();
 
-        next.setPrev(prev);
-        prev.setNext(next);
+        next.setLeft(prev);
+        prev.setRight(next);
     }
 
     private void consolidate() {
-        FiboNode[] nodesByDegree = new FiboNode[45];
+        FNode[] nodesByDegree = new FNode[45];
 
-        FiboNode start = minNode;
-        FiboNode current = minNode;
+        FNode start = minNode;
+        FNode current = minNode;
 
         do {
-            FiboNode next = current.getNext();
+            FNode min = current;
+            FNode next = current.getRight();
 
-            int degree = current.getDegree();
-            FiboNode min = current;
-            FiboNode max = null;
+            int degree = min.getDegree();
 
             while (nodesByDegree[degree] != null) {
 
-                FiboNode sameDegreeNode = nodesByDegree[degree];
-                if (current.compareTo(sameDegreeNode) > 0) {
-                    max = current;
-                    min = sameDegreeNode;
-                } else {
-                    max = sameDegreeNode;
+                FNode max = nodesByDegree[degree];
+
+                if (min.getKey() > max.getKey()) {
+                    FNode temp = max;
+                    max = min;
+                    min = temp;
                 }
 
                 if (max == start) {
-                    start = start.getNext();
+                    start = start.getRight();
                 }
 
                 if (max == next) {
-                    next = next.getNext();
+                    next = next.getRight();
                 }
 
-                setNodeAsChild(min, max);
+                max.link(min);
+                
                 nodesByDegree[degree] = null;
                 degree++;
 
@@ -176,39 +167,14 @@ public class FibonacciHeap implements MinHeap {
 
         } while (current != start);
 
-        for (FiboNode node : nodesByDegree) {
-            if (node != null && node.compareTo(minNode) < 0) {
+        minNode = start;
+        
+        for (FNode node : nodesByDegree) {
+            if (node != null && node.getKey() < minNode.getKey()) {
                 minNode = node;
             }
         }
 
-    }
-
-    private void setNodeAsChild(FiboNode parent, FiboNode child) {
-        FiboNode childPrev = child.getPrev();
-        FiboNode childNext = child.getNext();
-
-        childPrev.setNext(childNext);
-        childNext.setPrev(childPrev);
-
-        child.setParent(parent);
-
-        if (parent.getChild() == null) {
-            parent.setChild(child);
-            child.setNext(child);
-            child.setPrev(child);
-        } else {
-            FiboNode originalChild = parent.getChild();
-
-            child.setPrev(originalChild);
-            child.setNext(originalChild.getNext());
-            originalChild.getNext().setPrev(child);
-            originalChild.setNext(child);
-
-        }
-
-        parent.increaseDegree();
-        child.setMarked(false);
     }
 
     /**
@@ -225,46 +191,27 @@ public class FibonacciHeap implements MinHeap {
      * Muuttaa annetun Noden cost-arvon annetuksi jos se on pienempi kuin
      * alkuperäinen ja siirtää Noden oikealle paikalleen keossa.
      *
-     * @param node Node, jonka arvoa muutetaan
+     * @param key Node, jonka arvoa muutetaan
      * @param newValue uusi arvo
      */
     @Override
-    public void decreaseKey(Node node, int newValue) {
-        if (newValue > node.getCost()) {
+    public void decreaseKey(Node key, int newValue) {
+        if (newValue > key.getCost()) {
             return;
         }
 
-        node.setCost(newValue);
+        FNode node = key.getFNode();
+        node.setKey(newValue);
 
-        FiboNode fnode = node.getFiboNode();
-        FiboNode parent = fnode.getParent();
+        FNode parent = node.getParent();
 
-        if (parent != null && fnode.compareTo(parent) < 0) {
-            cut(fnode, parent);
-            cascadingCut(parent);
-        } else if (fnode.compareTo(minNode) < 0) {
-            minNode = fnode;
+        if (parent != null && newValue < parent.getKey()) {
+            parent.cut(node, minNode);
+            parent.cascadingCut(minNode);
+        } else if (newValue < minNode.getKey()) {
+            minNode = node;
         }
 
-    }
-
-    private void cut(FiboNode node, FiboNode parent) {
-        removeNodeFromList(node);
-        parent.decreaseDegree();
-        mergeLists(minNode, node);
-        node.setMarked(false);
-    }
-
-    private void cascadingCut(FiboNode node) {
-        FiboNode parent = node.getParent();
-        if (parent != null) {
-            if (node.isMarked()) {
-                cut(node, parent);
-                cascadingCut(parent);
-            } else {
-                node.setMarked(true);
-            }
-        }
     }
 
 }

@@ -1,13 +1,6 @@
 package girlyoureastar.algorithms;
 
-import girlyoureastar.datastructures.Graph;
-import girlyoureastar.datastructures.Node;
-import girlyoureastar.datastructures.BinaryHeap;
-import girlyoureastar.datastructures.FibonacciHeap;
-import girlyoureastar.datastructures.LinkedList;
-import girlyoureastar.datastructures.LinkedListNode;
-import girlyoureastar.datastructures.MinHeap;
-import girlyoureastar.datastructures.Stack;
+import girlyoureastar.datastructures.*;
 
 /**
  * Luokka tarjoaa metodin lyhimmän reitin etsimiseen verkosta A*-algoritmilla.
@@ -64,9 +57,9 @@ public class Astar {
     }
 
     private void updateNeighbors(LinkedList neighbors, Node current, Node finish) {
-        
+
         LinkedListNode nextListNode = neighbors.getHead();
-        
+
         while (nextListNode != null) {
             Node next = nextListNode.getKey();
             int newCost = costSoFar[current.getNodeId()] + next.getCostOfMovement();

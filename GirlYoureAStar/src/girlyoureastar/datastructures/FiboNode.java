@@ -7,11 +7,13 @@ package girlyoureastar.datastructures;
 public class FiboNode implements Comparable<FiboNode> {
 
     private Node node;
-    private int degree;
+
     private FiboNode parent;
     private FiboNode child;
     private FiboNode prev;
     private FiboNode next;
+
+    private int degree;
     private boolean marked;
 
     public FiboNode(Node node) {
@@ -20,6 +22,64 @@ public class FiboNode implements Comparable<FiboNode> {
         marked = false;
     }
 
+    
+    public void link(FiboNode parent) {
+        prev.next = next;
+        next.prev = prev;
+        
+        this.parent = parent;
+        if (parent.child == null) {
+            parent.child = this;
+            next = this;
+            prev = this;
+        } else {
+            prev = parent.child;
+            next = parent.child.next;
+            parent.child.next = this;
+            next.prev = this;
+        }
+        
+        parent.degree++;
+        
+        marked = false;
+    }
+    
+    public void cascadingCut(FiboNode min) {
+        FiboNode z = parent;
+        
+        if (z != null) {
+            if (marked) {
+                cut(this, min);
+                cascadingCut(min);
+            } else {
+                marked = true;
+            }
+        }
+    }
+    
+    public void cut(FiboNode x, FiboNode min) {
+        x.prev.next = x.next;
+        x.next.prev = x.prev;
+        degree--;
+        
+        if (degree == 0) {
+            child = null;
+        } else if (child == x) {
+            child = x.next;
+        }
+        
+        x.next = min;
+        x.prev = min.prev;
+        min.prev = x;
+        x.prev.next = x;
+        
+        x.parent = null;
+        
+        x.marked = false;
+        
+    }
+    
+    
     public Node getNode() {
         return node;
     }
@@ -39,7 +99,7 @@ public class FiboNode implements Comparable<FiboNode> {
     public void increaseDegree() {
         degree++;
     }
-    
+
     public void decreaseDegree() {
         degree--;
     }
