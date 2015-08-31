@@ -7,7 +7,7 @@ import girlyoureastar.datastructures.*;
  * algoritmilla.
  *
  */
-public class Dijkstra {
+public class Dijkstra implements RouteFinding {
 
     private Graph graph;
     private MinHeap open;

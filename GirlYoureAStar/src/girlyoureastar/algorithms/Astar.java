@@ -6,7 +6,7 @@ import girlyoureastar.datastructures.*;
  * Luokka tarjoaa metodin lyhimmän reitin etsimiseen verkosta A*-algoritmilla.
  *
  */
-public class Astar {
+public class Astar implements RouteFinding {
 
     private final Graph graph;
     private MinHeap open;

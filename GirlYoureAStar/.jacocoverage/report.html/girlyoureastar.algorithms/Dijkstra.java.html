@@ -48,36 +48,39 @@ public class Dijkstra {
 
 <span class="fc" id="L49">        return null;</span>
     }
+    
 
     private void updateNeighbors(LinkedList neighbors, Node current) {
-<span class="fc" id="L53">        LinkedListNode nextListNode = neighbors.getHead();</span>
-<span class="fc bfc" id="L54" title="All 2 branches covered.">        while (nextListNode != null) {</span>
-<span class="fc" id="L55">            Node next = nextListNode.getKey();</span>
-<span class="fc" id="L56">            int newCost = current.getCost() + next.getCostOfMovement();</span>
 
-<span class="fc bfc" id="L58" title="All 2 branches covered.">            if (next.getCost() == -1) {</span>
-<span class="fc" id="L59">                next.setCost(newCost);</span>
-<span class="fc" id="L60">                open.insert(next);</span>
-<span class="fc" id="L61">                next.setParent(current);</span>
-<span class="pc bpc" id="L62" title="1 of 2 branches missed.">            } else if (next.getCost() &gt; newCost) {</span>
-<span class="nc" id="L63">                next.setCost(newCost);</span>
-<span class="nc" id="L64">                open.decreaseKey(next, newCost);</span>
-<span class="nc" id="L65">                next.setParent(current);</span>
+<span class="fc" id="L55">        LinkedListNode nextListNode = neighbors.getHead();</span>
+
+<span class="fc bfc" id="L57" title="All 2 branches covered.">        while (nextListNode != null) {</span>
+<span class="fc" id="L58">            Node next = nextListNode.getKey();</span>
+<span class="fc" id="L59">            int newCost = current.getCost() + next.getCostOfMovement();</span>
+
+<span class="fc bfc" id="L61" title="All 2 branches covered.">            if (next.getCost() == -1) {</span>
+<span class="fc" id="L62">                next.setCost(newCost);</span>
+<span class="fc" id="L63">                open.insert(next);</span>
+<span class="fc" id="L64">                next.setParent(current);</span>
+<span class="pc bpc" id="L65" title="1 of 2 branches missed.">            } else if (next.getCost() &gt; newCost) {</span>
+<span class="nc" id="L66">                next.setCost(newCost);</span>
+<span class="nc" id="L67">                open.decreaseKey(next, newCost);</span>
+<span class="nc" id="L68">                next.setParent(current);</span>
             }
-            
-<span class="fc" id="L68">            nextListNode = nextListNode.getNext();</span>
-<span class="fc" id="L69">        }</span>
-<span class="fc" id="L70">    }</span>
+
+<span class="fc" id="L71">            nextListNode = nextListNode.getNext();</span>
+<span class="fc" id="L72">        }</span>
+<span class="fc" id="L73">    }</span>
 
     private Stack shortestPathInAStack(Node end) {
-<span class="fc" id="L73">        Stack path = new Stack(graph.length());</span>
+<span class="fc" id="L76">        Stack path = new Stack(graph.length());</span>
 
-<span class="fc bfc" id="L75" title="All 2 branches covered.">        while (end != null) {</span>
-<span class="fc" id="L76">            path.push(end);</span>
-<span class="fc" id="L77">            end = end.getParent();</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">        while (end != null) {</span>
+<span class="fc" id="L79">            path.push(end);</span>
+<span class="fc" id="L80">            end = end.getParent();</span>
         }
 
-<span class="fc" id="L80">        return path;</span>
+<span class="fc" id="L83">        return path;</span>
     }
 
 }

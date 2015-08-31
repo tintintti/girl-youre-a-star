@@ -2,198 +2,146 @@ package girlyoureastar;
 
 import girlyoureastar.algorithms.*;
 import girlyoureastar.datastructures.*;
-import java.util.LinkedList;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 public class GirlYoureAStar {
 
     public static void main(String[] args) {
-
-        searchTest();
-//        fiboTest();
+        try {
+            mazeSolving();
+        } catch (FileNotFoundException ex) {
+            System.out.println("Tiedostoa ei löydy.");
+        }
 
     }
 
-    public static void searchTest() {
-        int[][] map = new int[11][21];
+    private static void mazeSolving() throws FileNotFoundException {
+        Scanner scanner = new Scanner(System.in);
 
-        map[1][0] = 9;
-        map[1][1] = 9;
-        map[1][2] = 9;
-        map[1][4] = 9;
-        map[3][4] = 9;
-        map[3][3] = 9;
-        map[3][2] = 9;
-        map[3][0] = 9;
-        map[4][0] = 9;
-        map[4][1] = 3;
-        map[3][1] = 3;
-        map[4][2] = 9;
-        map[5][5] = 9;
-        map[6][5] = 9;
-        map[5][6] = 3;
-        map[6][6] = 3;
-        map[5][6] = 3;
-        map[6][6] = 3;
-        map[5][4] = 3;
-        map[6][4] = 3;
-        map[5][3] = 3;
-        map[6][3] = 3;
-        map[5][2] = 3;
-        map[6][2] = 3;
-        map[5][1] = 3;
-        map[6][1] = 3;
-        map[5][0] = 3;
-        map[6][0] = 3;
+        System.out.println("Karttatiedoston nimi:");
+        String filename = scanner.nextLine();
 
-        Graph g = new Graph(map);
+        MapFileReader fileReader = new MapFileReader(filename);
 
-        System.out.println(g);
+        int[][] map = fileReader.readMap();
 
-        Node[][] nodes1 = g.getNodes();
+        int startX;
+        int endX;
+        int startY;
+        int endY;
 
-        Node start = nodes1[0][0];
-        Node finish = nodes1[7][0];
+        while (true) {
+            try {
+                System.out.println("Alkupisteen x-koordinaatti:");
+                startX = Integer.parseInt(scanner.nextLine());
 
-        Astar a = new Astar(g, true);
-        Dijkstra d = new Dijkstra(g, true);
+                System.out.println("Alkupisteen y-koordinaatti:");
+                startY = Integer.parseInt(scanner.nextLine());
 
-        Stack path = d.findRoute(start, finish);
+                System.out.println("Loppupisteen x-koordinaatti:");
+                endX = Integer.parseInt(scanner.nextLine());
 
-        System.out.println("");
-        if (path != null) {
-            while (!path.isEmpty()) {
-                Node n = path.pop();
-                System.out.println(n);
+                System.out.println("Loppupisteen y-koordinaatti:");
+                endY = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Virheellinen koordinaatti.\n"
+                        + "Anna koordinaatit uudelleen.\n");
+                continue;
             }
+            break;
         }
 
-        System.out.println("");
+        while (true) {
 
-        printMap(g, finish);
-        System.out.println("Matkan pituus: " + finish.getCost());
+            Graph g = new Graph(map);
 
-    }
+            Node[][] nodes = g.getNodes();
 
-    public static void fiboTest() {
+            Node start = nodes[startX][startY];
+            Node end = nodes[endX][endY];
 
-        FibonacciHeap heap = new FibonacciHeap();
+            System.out.println("d = Dijkstra");
+            System.out.println("a = A*");
+            System.out.println("q = lopettaa ohjelman");
+            System.out.print("> ");
 
-        Node n1 = new Node(0, 0, 0, 1);
-        Node n2 = new Node(1, 0, 1, 1);
-        Node n3 = new Node(2, 0, 2, 1);
-        Node n4 = new Node(3, 0, 3, 1);
-        Node n5 = new Node(4, 0, 4, 1);
-        Node n6 = new Node(5, 0, 5, 1);
-        Node n7 = new Node(6, 0, 6, 1);
-        Node n8 = new Node(7, 0, 7, 1);
-        Node n9 = new Node(8, 0, 8, 1);
-        Node n10 = new Node(9, 0, 9, 1);
+            String algorithm = scanner.nextLine();
 
-        n1.setCost(10);
-        n2.setCost(22);
-        n3.setCost(67);
-        n4.setCost(23);
-        n5.setCost(63);
-        n6.setCost(15);
-        n7.setCost(24);
-        n8.setCost(8);
-        n9.setCost(27);
-        n10.setCost(20);
-
-        heap.insert(n1);
-        heap.insert(n2);
-        heap.insert(n3);
-        heap.insert(n4);
-
-        heap.decreaseKey(n2, 3);
-
-        heap.insert(n5);
-        heap.insert(n6);
-        heap.insert(n7);
-
-        heap.decreaseKey(n7, 2);
-
-        heap.insert(n8);
-        heap.insert(n9);
-        heap.insert(n10);
-
-        heap.decreaseKey(n10, 10);
-        heap.decreaseKey(n3, 4);
-        heap.decreaseKey(n8, 1);
-        heap.decreaseKey(n6, 3);
-        heap.decreaseKey(n4, 5);
-        
-        printTrees(heap);
-
-        for (int i = 0; i < 10; i++) {
-            System.out.println(heap.size());
-            System.out.println(heap.delMin());
-            System.out.println("");
-            printTrees(heap);
-        }
-
-    }
-
-    public static void printIdAndCost(Node n) {
-        if (n == null) {
-            System.out.println(n);
-        } else {
-            System.out.println("id: " + n.getNodeId() + " cost: " + n.getCost());
-            System.out.println(n.getFNode().getLeft().getNode());
-            System.out.println(n.getFNode().getRight().getNode());
-        }
-    }
-
-    public static void printTrees(FibonacciHeap heap) {
-        System.out.println("tulostetaan puu:");
-        
-        if (heap.peek() == null) {
-            System.out.println("Puu on tyhjä");
-            System.out.println("----------------");
-            return;
-        }
-        
-        FNode start = heap.peek().getFNode();
-        
-        do {
-            LinkedList<FNode> q = new LinkedList<>();
-            q.add(start);
-
-            while (!q.isEmpty()) {
-                FNode n = q.poll();
-                System.out.print("[id: " + n.getNode().getNodeId() + " d: " + n.getDegree()
-                        + " prev: " + n.getLeft().getNode()
-                        + " next: " + n.getRight().getNode() + "] ");
-                if (n.getChild() != null) {
-                    FNode child = n.getChild();
-                    do {
-                        q.add(child);
-                        child = child.getRight();
-                    } while (child != n.getChild());
-                }
+            if (algorithm.equals("q")) {
+                break;
             }
-            System.out.println("");
-            start = start.getRight();
-        } while (start != heap.peek().getFNode());
-        System.out.println("----------------");
+
+            System.out.println("f = Fibonacci-keko");
+            System.out.println("b = binäärikeko");
+            System.out.print("> ");
+
+            String priorityqueue = scanner.nextLine();
+
+            MinHeap heap;
+            RouteFinding finder;
+
+            switch (priorityqueue) {
+                case "f":
+                    heap = new FibonacciHeap();
+                    break;
+                case "b":
+                    heap = new BinaryHeap(g.length());
+                    break;
+                default:
+                    System.out.println("Virheellinen prioriteettikeon valinta. Valitse 'f' tai 'b'\n");
+                    continue;
+            }
+
+            switch (algorithm) {
+                case "d":
+                    System.out.println(g);
+                    System.out.println("");
+                    finder = new Dijkstra(g, priorityqueue.equals("f"));
+                    break;
+                case "a":
+                    System.out.println(g);
+                    System.out.println("");
+                    finder = new Astar(g, priorityqueue.equals("f"));
+                    break;
+                default:
+                    System.out.println("Virheellinen algoritmin valinta. Valitse 'd' tai 'a'\n");
+                    continue;
+            }
+
+            long timeStart = System.currentTimeMillis();
+            finder.findRoute(start, end);
+            long timeEnd = System.currentTimeMillis();
+            printMap(g, end);
+            System.out.println("Reitin pituus siirtymisen hinta huomioonotettuna: " + end.getCost());
+            System.out.println("Reitin löytämiseen kului aikaa " + (timeEnd - timeStart) + " ms.");
+
+        }
     }
 
-    public static void printMap(Graph g, Node n) {
+    public static void printMap(Graph g, Node finish) {
         int[][] map = g.getMap();
+        int[][] mapCopy = new int[map.length][map[0].length];
 
-        while (n != null) {
-            map[n.getX()][n.getY()] = 10;
-            n = n.getParent();
+        for (int i = 0; i < mapCopy.length; i++) {
+            for (int j = 0; j < mapCopy[0].length; j++) {
+                mapCopy[i][j] = map[i][j];
+            }
         }
 
-        for (int i = 0; i < map.length; i++) {
-            for (int j = 0; j < map[0].length; j++) {
-                if (map[i][j] == 9) {
+        while (finish != null) {
+            mapCopy[finish.getX()][finish.getY()] = 10;
+            finish = finish.getParent();
+        }
+
+        for (int i = 0; i < mapCopy.length; i++) {
+            for (int j = 0; j < mapCopy[0].length; j++) {
+                if (mapCopy[i][j] == 9) {
                     System.out.print("#");
-                } else if (map[i][j] == 10) {
+                } else if (mapCopy[i][j] == 10) {
                     System.out.print(".");
                 } else {
-                    System.out.print(map[i][j] + 1);
+                    System.out.print(mapCopy[i][j] + 1);
                 }
             }
             System.out.println("");

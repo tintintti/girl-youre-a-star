@@ -132,37 +132,37 @@ public class FibonacciHeap implements MinHeap {
         FNode current = minNode;
 
         do {
-            FNode min = current;
+            FNode x = current;
             FNode next = current.getRight();
 
-            int degree = min.getDegree();
+            int degree = x.getDegree();
 
             while (nodesByDegree[degree] != null) {
 
-                FNode max = nodesByDegree[degree];
+                FNode y = nodesByDegree[degree];
 
-                if (min.getKey() > max.getKey()) {
-                    FNode temp = max;
-                    max = min;
-                    min = temp;
+                if (x.getKey() > y.getKey()) {
+                    FNode temp = y;
+                    y = x;
+                    x = temp;
                 }
 
-                if (max == start) {
+                if (y == start) {
                     start = start.getRight();
                 }
 
-                if (max == next) {
+                if (y == next) {
                     next = next.getRight();
                 }
 
-                max.link(min);
+                y.link(x);
                 
                 nodesByDegree[degree] = null;
                 degree++;
 
             }
 
-            nodesByDegree[degree] = min;
+            nodesByDegree[degree] = x;
             current = next;
 
         } while (current != start);
@@ -203,6 +203,11 @@ public class FibonacciHeap implements MinHeap {
         FNode node = key.getFNode();
         node.setKey(newValue);
 
+        if (node.getRight().getLeft() != node || node.getLeft().getRight() != node) {
+            insert(key);
+            return;
+        }
+        
         FNode parent = node.getParent();
 
         if (parent != null && newValue < parent.getKey()) {

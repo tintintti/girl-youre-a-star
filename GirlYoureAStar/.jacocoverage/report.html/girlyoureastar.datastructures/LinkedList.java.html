@@ -1,19 +1,19 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>LinkedList.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;GirlYoureAStar&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">girlyoureastar.datastructures</a> &gt; <span class="el_source">LinkedList.java</span></div><h1>LinkedList.java</h1><pre class="source lang-java linenums">
-package girlyoureastar.datastructures;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>LinkedList.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;GirlYoureAStar&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">girlyoureastar.datastructures</a> &gt; <span class="el_source">LinkedList.java</span></div><h1>LinkedList.java</h1><pre class="source lang-java linenums">package girlyoureastar.datastructures;
 
 /**
  * Luokka tarjiaa metodit Nodejen tallentamiseen linkitettyyn listaan
- * 
+ *
  */
 public class LinkedList {
+
     private LinkedListNode head;
 
 <span class="fc" id="L11">    public LinkedList() {</span>
 <span class="fc" id="L12">        head = null;</span>
 <span class="fc" id="L13">    }</span>
-    
+
     /**
-     * 
+     *
      * @return tieto onko lista tyhjä
      */
     public boolean isEmpty() {
@@ -21,25 +21,24 @@ public class LinkedList {
     }
 
     /**
-     * 
+     *
      * @return listan ensimmäinen Node
      */
     public LinkedListNode getHead() { // if you know what I mean :33
 <span class="fc" id="L28">        return head;</span>
     }
 
-    
     /**
      * Lisää annetun Noden listaan.
-     * 
+     *
      * @param key lisättävä Node
      */
     public void add(Node key) {
-<span class="fc" id="L38">        LinkedListNode node = new LinkedListNode(key);</span>
-        
-<span class="fc" id="L40">        node.next = head;</span>
-<span class="fc" id="L41">        head = node;</span>
-<span class="fc" id="L42">    }</span>
-    
+<span class="fc" id="L37">        LinkedListNode node = new LinkedListNode(key);</span>
+
+<span class="fc" id="L39">        node.next = head;</span>
+<span class="fc" id="L40">        head = node;</span>
+<span class="fc" id="L41">    }</span>
+
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>
