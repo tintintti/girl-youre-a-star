@@ -6,7 +6,7 @@ import girlyoureastar.datastructures.*;
  * Luokka tarjoaa metodin lyhimmän reitin etsimiseen verkosta A*-algoritmilla.
  *
  */
-public class Astar implements RouteFinding {
+public class Astar implements RouteFinder {
 
     private final Graph graph;
     private MinHeap open;
@@ -93,6 +93,11 @@ public class Astar implements RouteFinding {
         return Math.abs(finish.getX() - start.getX()) + Math.abs(finish.getY() - start.getY());
     }
 
+    /**
+     *
+     * @return  taulukko, jossa on jokaista verkon solmua kohden siihen
+     *          kulkemiseen aloituspisteestä vaadittava matka
+     */
     public int[] getCostSoFar() {
         return costSoFar;
     }

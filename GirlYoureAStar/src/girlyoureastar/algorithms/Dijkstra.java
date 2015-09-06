@@ -7,7 +7,7 @@ import girlyoureastar.datastructures.*;
  * algoritmilla.
  *
  */
-public class Dijkstra implements RouteFinding {
+public class Dijkstra implements RouteFinder {
 
     private Graph graph;
     private MinHeap open;
@@ -30,6 +30,7 @@ public class Dijkstra implements RouteFinding {
      * @param finish reitin loppupiste
      * @return lyhimmän reitin solmut sisältävä pino
      */
+    @Override
     public Stack findRoute(Node start, Node finish) {
         start.setCost(0);
         open.insert(start);

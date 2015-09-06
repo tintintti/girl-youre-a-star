@@ -27,48 +27,44 @@ public class BinaryHeap implements MinHeap {
 <span class="fc" id="L27">        return 2 * i + 1;</span>
     }
 
-    private boolean isLeaf(int i) {
-<span class="nc bnc" id="L31" title="All 4 branches missed.">        return i &gt;= (heapSize / 2) &amp;&amp; i &lt;= heapSize;</span>
-    }
-
     private void heapify(int i) {
-<span class="fc" id="L35">        int left = left(i);</span>
-<span class="fc" id="L36">        int right = right(i);</span>
-<span class="fc" id="L37">        int smallest = right;</span>
+<span class="fc" id="L31">        int left = left(i);</span>
+<span class="fc" id="L32">        int right = right(i);</span>
+<span class="fc" id="L33">        int smallest = right;</span>
 
-<span class="fc bfc" id="L39" title="All 2 branches covered.">        if (right &lt;= heapSize) {</span>
-<span class="fc bfc" id="L40" title="All 2 branches covered.">            if (heap[left].compareTo(heap[right]) &lt; 0) {</span>
-<span class="fc" id="L41">                smallest = left;</span>
+<span class="fc bfc" id="L35" title="All 2 branches covered.">        if (right &lt;= heapSize) {</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">            if (heap[left].compareTo(heap[right]) &lt; 0) {</span>
+<span class="fc" id="L37">                smallest = left;</span>
             }
-<span class="fc bfc" id="L43" title="All 2 branches covered.">            if (heap[smallest].compareTo(heap[i]) &lt; 0) {</span>
-<span class="fc" id="L44">                switchNodes(i, smallest);</span>
-<span class="fc" id="L45">                heapify(smallest);</span>
+<span class="fc bfc" id="L39" title="All 2 branches covered.">            if (heap[smallest].compareTo(heap[i]) &lt; 0) {</span>
+<span class="fc" id="L40">                switchNodes(i, smallest);</span>
+<span class="fc" id="L41">                heapify(smallest);</span>
             }
-<span class="pc bpc" id="L47" title="1 of 4 branches missed.">        } else if (left == heapSize &amp;&amp; heap[left].compareTo(heap[i]) &lt; 0) {</span>
-<span class="nc" id="L48">            switchNodes(i, left);</span>
+<span class="fc bfc" id="L43" title="All 4 branches covered.">        } else if (left == heapSize &amp;&amp; heap[left].compareTo(heap[i]) &lt; 0) {</span>
+<span class="fc" id="L44">            switchNodes(i, left);</span>
         }
-<span class="fc" id="L50">    }</span>
+<span class="fc" id="L46">    }</span>
 
     private void switchNodes(int index1, int index2) {
-<span class="fc" id="L53">        Node temp = heap[index1];</span>
+<span class="fc" id="L49">        Node temp = heap[index1];</span>
 
-<span class="fc" id="L55">        heap[index1] = heap[index2];</span>
-<span class="fc" id="L56">        heap[index2] = temp;</span>
+<span class="fc" id="L51">        heap[index1] = heap[index2];</span>
+<span class="fc" id="L52">        heap[index2] = temp;</span>
 
-<span class="fc" id="L58">        heap[index1].setHeapIndex(index1);</span>
-<span class="fc" id="L59">        heap[index2].setHeapIndex(index2);</span>
-<span class="fc" id="L60">    }</span>
+<span class="fc" id="L54">        heap[index1].setHeapIndex(index1);</span>
+<span class="fc" id="L55">        heap[index2].setHeapIndex(index2);</span>
+<span class="fc" id="L56">    }</span>
 
     private void moveNodeToCorrectPlace(int i, Node node) {
-<span class="fc bfc" id="L63" title="All 4 branches covered.">        while (i &gt; 1 &amp;&amp; heap[parent(i)].compareTo(node) &gt; 0) {</span>
-<span class="fc" id="L64">            int parent = parent(i);</span>
-<span class="fc" id="L65">            heap[i] = heap[(parent)];</span>
-<span class="fc" id="L66">            heap[i].setHeapIndex(i);</span>
-<span class="fc" id="L67">            i = parent;</span>
-<span class="fc" id="L68">        }</span>
-<span class="fc" id="L69">        heap[i] = node;</span>
-<span class="fc" id="L70">        node.setHeapIndex(i);</span>
-<span class="fc" id="L71">    }</span>
+<span class="fc bfc" id="L59" title="All 4 branches covered.">        while (i &gt; 1 &amp;&amp; heap[parent(i)].compareTo(node) &gt; 0) {</span>
+<span class="fc" id="L60">            int parent = parent(i);</span>
+<span class="fc" id="L61">            heap[i] = heap[(parent)];</span>
+<span class="fc" id="L62">            heap[i].setHeapIndex(i);</span>
+<span class="fc" id="L63">            i = parent;</span>
+<span class="fc" id="L64">        }</span>
+<span class="fc" id="L65">        heap[i] = node;</span>
+<span class="fc" id="L66">        node.setHeapIndex(i);</span>
+<span class="fc" id="L67">    }</span>
 
     /**
      *
@@ -76,7 +72,7 @@ public class BinaryHeap implements MinHeap {
      */
     @Override
     public Node peek() {
-<span class="fc" id="L79">        return heap[1];</span>
+<span class="fc" id="L75">        return heap[1];</span>
     }
 
     /**
@@ -86,17 +82,17 @@ public class BinaryHeap implements MinHeap {
      */
     @Override
     public Node delMin() {
-<span class="pc bpc" id="L89" title="1 of 2 branches missed.">        if (heapSize == 0) {</span>
-<span class="nc" id="L90">            return null;</span>
+<span class="pc bpc" id="L85" title="1 of 2 branches missed.">        if (heapSize == 0) {</span>
+<span class="nc" id="L86">            return null;</span>
         }
 
-<span class="fc" id="L93">        Node min = heap[1];</span>
-<span class="fc" id="L94">        heap[1] = heap[heapSize];</span>
-<span class="fc" id="L95">        heap[1].setHeapIndex(1);</span>
-<span class="fc" id="L96">        heapSize--;</span>
-<span class="fc" id="L97">        heapify(1);</span>
+<span class="fc" id="L89">        Node min = heap[1];</span>
+<span class="fc" id="L90">        heap[1] = heap[heapSize];</span>
+<span class="fc" id="L91">        heap[1].setHeapIndex(1);</span>
+<span class="fc" id="L92">        heapSize--;</span>
+<span class="fc" id="L93">        heapify(1);</span>
 
-<span class="fc" id="L99">        return min;</span>
+<span class="fc" id="L95">        return min;</span>
     }
 
     /**
@@ -106,12 +102,12 @@ public class BinaryHeap implements MinHeap {
      */
     @Override
     public void insert(Node node) {
-<span class="fc" id="L109">        heapSize++;</span>
-<span class="fc" id="L110">        int i = heapSize;</span>
-<span class="fc" id="L111">        heap[i] = node;</span>
+<span class="fc" id="L105">        heapSize++;</span>
+<span class="fc" id="L106">        int i = heapSize;</span>
+<span class="fc" id="L107">        heap[i] = node;</span>
 
-<span class="fc" id="L113">        moveNodeToCorrectPlace(i, node);</span>
-<span class="fc" id="L114">    }</span>
+<span class="fc" id="L109">        moveNodeToCorrectPlace(i, node);</span>
+<span class="fc" id="L110">    }</span>
 
     /**
      * Metodi asettaa halutulle Nodelle uuden cost-arvon mikäli se on
@@ -123,17 +119,17 @@ public class BinaryHeap implements MinHeap {
     @Override
     public void decreaseKey(Node node, int newKeyValue) {
 
-<span class="pc bpc" id="L126" title="1 of 2 branches missed.">        if (node.getCost() &lt; newKeyValue) {</span>
-<span class="nc" id="L127">            return;</span>
+<span class="pc bpc" id="L122" title="1 of 2 branches missed.">        if (node.getCost() &lt; newKeyValue) {</span>
+<span class="nc" id="L123">            return;</span>
         }
 
-<span class="fc" id="L130">        node.setCost(newKeyValue);</span>
+<span class="fc" id="L126">        node.setCost(newKeyValue);</span>
 
-<span class="fc" id="L132">        int i = node.getHeapIndex();</span>
+<span class="fc" id="L128">        int i = node.getHeapIndex();</span>
 
-<span class="fc" id="L134">        moveNodeToCorrectPlace(i, node);</span>
+<span class="fc" id="L130">        moveNodeToCorrectPlace(i, node);</span>
 
-<span class="fc" id="L136">    }</span>
+<span class="fc" id="L132">    }</span>
 
     /**
      *
@@ -141,7 +137,7 @@ public class BinaryHeap implements MinHeap {
      */
     @Override
     public boolean isEmpty() {
-<span class="fc bfc" id="L144" title="All 2 branches covered.">        return heapSize == 0;</span>
+<span class="fc bfc" id="L140" title="All 2 branches covered.">        return heapSize == 0;</span>
     }
 
     /**
@@ -149,7 +145,7 @@ public class BinaryHeap implements MinHeap {
      * @return taulukko, johon Nodet on tallennettu
      */
     public Node[] getHeap() {
-<span class="fc" id="L152">        return heap;</span>
+<span class="fc" id="L148">        return heap;</span>
     }
 
     /**
@@ -159,7 +155,7 @@ public class BinaryHeap implements MinHeap {
      */
     @Override
     public int size() {
-<span class="fc" id="L162">        return heapSize;</span>
+<span class="fc" id="L158">        return heapSize;</span>
     }
 
 }

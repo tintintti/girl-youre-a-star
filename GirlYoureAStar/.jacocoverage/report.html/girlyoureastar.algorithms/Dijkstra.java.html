@@ -7,7 +7,7 @@ import girlyoureastar.datastructures.*;
  * algoritmilla.
  *
  */
-public class Dijkstra {
+public class Dijkstra implements RouteFinder {
 
     private Graph graph;
     private MinHeap open;
@@ -16,8 +16,8 @@ public class Dijkstra {
 <span class="fc" id="L16">    public Dijkstra(Graph graph, boolean fibonacci) {</span>
 <span class="fc" id="L17">        this.graph = graph;</span>
 <span class="fc" id="L18">        this.costSoFar = new int[graph.length()];</span>
-<span class="pc bpc" id="L19" title="1 of 2 branches missed.">        if (fibonacci) {</span>
-<span class="nc" id="L20">            open = new FibonacciHeap();</span>
+<span class="fc bfc" id="L19" title="All 2 branches covered.">        if (fibonacci) {</span>
+<span class="fc" id="L20">            open = new FibonacciHeap();</span>
         } else {
 <span class="fc" id="L22">            open = new BinaryHeap(graph.length());</span>
         }
@@ -30,57 +30,58 @@ public class Dijkstra {
      * @param finish reitin loppupiste
      * @return lyhimmän reitin solmut sisältävä pino
      */
+    @Override
     public Stack findRoute(Node start, Node finish) {
-<span class="fc" id="L34">        start.setCost(0);</span>
-<span class="fc" id="L35">        open.insert(start);</span>
+<span class="fc" id="L35">        start.setCost(0);</span>
+<span class="fc" id="L36">        open.insert(start);</span>
 
-<span class="fc bfc" id="L37" title="All 2 branches covered.">        while (!open.isEmpty()) {</span>
-<span class="fc" id="L38">            Node current = open.delMin();</span>
+<span class="fc bfc" id="L38" title="All 2 branches covered.">        while (!open.isEmpty()) {</span>
+<span class="fc" id="L39">            Node current = open.delMin();</span>
 
-<span class="fc bfc" id="L40" title="All 2 branches covered.">            if (current.equals(finish)) {</span>
-<span class="fc" id="L41">                return shortestPathInAStack(current);</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">            if (current.equals(finish)) {</span>
+<span class="fc" id="L42">                return shortestPathInAStack(current);</span>
             }
 
-<span class="fc" id="L44">            LinkedList neighbors = graph.getEdges()[current.getNodeId()];</span>
+<span class="fc" id="L45">            LinkedList neighbors = graph.getEdges()[current.getNodeId()];</span>
 
-<span class="fc" id="L46">            updateNeighbors(neighbors, current);</span>
-<span class="fc" id="L47">        }</span>
+<span class="fc" id="L47">            updateNeighbors(neighbors, current);</span>
+<span class="fc" id="L48">        }</span>
 
-<span class="fc" id="L49">        return null;</span>
+<span class="fc" id="L50">        return null;</span>
     }
     
 
     private void updateNeighbors(LinkedList neighbors, Node current) {
 
-<span class="fc" id="L55">        LinkedListNode nextListNode = neighbors.getHead();</span>
+<span class="fc" id="L56">        LinkedListNode nextListNode = neighbors.getHead();</span>
 
-<span class="fc bfc" id="L57" title="All 2 branches covered.">        while (nextListNode != null) {</span>
-<span class="fc" id="L58">            Node next = nextListNode.getKey();</span>
-<span class="fc" id="L59">            int newCost = current.getCost() + next.getCostOfMovement();</span>
+<span class="fc bfc" id="L58" title="All 2 branches covered.">        while (nextListNode != null) {</span>
+<span class="fc" id="L59">            Node next = nextListNode.getKey();</span>
+<span class="fc" id="L60">            int newCost = current.getCost() + next.getCostOfMovement();</span>
 
-<span class="fc bfc" id="L61" title="All 2 branches covered.">            if (next.getCost() == -1) {</span>
-<span class="fc" id="L62">                next.setCost(newCost);</span>
-<span class="fc" id="L63">                open.insert(next);</span>
-<span class="fc" id="L64">                next.setParent(current);</span>
-<span class="pc bpc" id="L65" title="1 of 2 branches missed.">            } else if (next.getCost() &gt; newCost) {</span>
-<span class="nc" id="L66">                next.setCost(newCost);</span>
-<span class="nc" id="L67">                open.decreaseKey(next, newCost);</span>
-<span class="nc" id="L68">                next.setParent(current);</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">            if (next.getCost() == -1) {</span>
+<span class="fc" id="L63">                next.setCost(newCost);</span>
+<span class="fc" id="L64">                open.insert(next);</span>
+<span class="fc" id="L65">                next.setParent(current);</span>
+<span class="pc bpc" id="L66" title="1 of 2 branches missed.">            } else if (next.getCost() &gt; newCost) {</span>
+<span class="nc" id="L67">                next.setCost(newCost);</span>
+<span class="nc" id="L68">                open.decreaseKey(next, newCost);</span>
+<span class="nc" id="L69">                next.setParent(current);</span>
             }
 
-<span class="fc" id="L71">            nextListNode = nextListNode.getNext();</span>
-<span class="fc" id="L72">        }</span>
-<span class="fc" id="L73">    }</span>
+<span class="fc" id="L72">            nextListNode = nextListNode.getNext();</span>
+<span class="fc" id="L73">        }</span>
+<span class="fc" id="L74">    }</span>
 
     private Stack shortestPathInAStack(Node end) {
-<span class="fc" id="L76">        Stack path = new Stack(graph.length());</span>
+<span class="fc" id="L77">        Stack path = new Stack(graph.length());</span>
 
-<span class="fc bfc" id="L78" title="All 2 branches covered.">        while (end != null) {</span>
-<span class="fc" id="L79">            path.push(end);</span>
-<span class="fc" id="L80">            end = end.getParent();</span>
+<span class="fc bfc" id="L79" title="All 2 branches covered.">        while (end != null) {</span>
+<span class="fc" id="L80">            path.push(end);</span>
+<span class="fc" id="L81">            end = end.getParent();</span>
         }
 
-<span class="fc" id="L83">        return path;</span>
+<span class="fc" id="L84">        return path;</span>
     }
 
 }

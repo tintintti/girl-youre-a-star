@@ -28,20 +28,20 @@ public class Stack {
      * @return  poistettu Node
      */
     public Node pop() {
-<span class="nc bnc" id="L31" title="All 2 branches missed.">        if (top &gt; -1) {</span>
-<span class="nc" id="L32">            Node n = table[top];</span>
-<span class="nc" id="L33">            top--;</span>
-<span class="nc" id="L34">            return n;</span>
+<span class="fc bfc" id="L31" title="All 2 branches covered.">        if (top &gt; -1) {</span>
+<span class="fc" id="L32">            Node n = table[top];</span>
+<span class="fc" id="L33">            top--;</span>
+<span class="fc" id="L34">            return n;</span>
         }
 
-<span class="nc" id="L37">        return null;</span>
+<span class="fc" id="L37">        return null;</span>
     }
 
     /**
      * @return boolean onko pino tyhjä
      */
     public boolean isEmpty() {
-<span class="nc bnc" id="L44" title="All 2 branches missed.">        return top == -1;</span>
+<span class="pc bpc" id="L44" title="1 of 2 branches missed.">        return top == -1;</span>
     }
     
     /**

@@ -28,44 +28,78 @@ public class Node implements Comparable&lt;Node&gt; {
 <span class="fc" id="L28">        this.passable = true;</span>
 <span class="fc" id="L29">    }</span>
 
+    /**
+     *
+     * @return kuinka paljon solmuun siirtyminen verkossa maksaa, eli solmuun
+     * kulkevien kaarien kaaripaino
+     */
     public int getCostOfMovement() {
-<span class="fc" id="L32">        return costOfMovement;</span>
+<span class="fc" id="L37">        return costOfMovement;</span>
     }
 
+    /**
+     *
+     * @param costOfMovement kuinka paljon solmuun siirtyminen verkossa maksaa,
+     * eli solmuun kulkevien kaarien kaaripaino
+     */
     public void setCostOfMovement(int costOfMovement) {
-<span class="nc" id="L36">        this.costOfMovement = costOfMovement;</span>
-<span class="nc" id="L37">    }</span>
+<span class="nc" id="L46">        this.costOfMovement = costOfMovement;</span>
+<span class="nc" id="L47">    }</span>
 
+    /**
+     * 
+     * @return Noden yksilöllinen id-numero
+     */
     public int getNodeId() {
-<span class="fc" id="L40">        return nodeId;</span>
+<span class="fc" id="L54">        return nodeId;</span>
     }
 
+    /**
+     * 
+     * @param nodeId Noden yksilöllinen id-numero
+     */
     public void setNodeId(int nodeId) {
-<span class="nc" id="L44">        this.nodeId = nodeId;</span>
-<span class="nc" id="L45">    }</span>
+<span class="nc" id="L62">        this.nodeId = nodeId;</span>
+<span class="nc" id="L63">    }</span>
 
+    /**
+     *
+     * @return rivin numero, jolla Node kartalla on
+     */
     public int getX() {
-<span class="fc" id="L48">        return x;</span>
+<span class="fc" id="L70">        return x;</span>
     }
 
+    /**
+     *
+     * @param x rivin numero, jolla Node kartalla on
+     */
     public void setX(int x) {
-<span class="nc" id="L52">        this.x = x;</span>
-<span class="nc" id="L53">    }</span>
+<span class="nc" id="L78">        this.x = x;</span>
+<span class="nc" id="L79">    }</span>
 
+    /**
+     *
+     * @return sarakkeen numero, jolla Node kartalla on
+     */
     public int getY() {
-<span class="fc" id="L56">        return y;</span>
+<span class="fc" id="L86">        return y;</span>
     }
 
+    /**
+     *
+     * @param y sarakkeen numero, jolla Node kartalla on
+     */
     public void setY(int y) {
-<span class="nc" id="L60">        this.y = y;</span>
-<span class="nc" id="L61">    }</span>
+<span class="nc" id="L94">        this.y = y;</span>
+<span class="nc" id="L95">    }</span>
 
     /**
      *
      * @return Noden parent, eli mistä nodesta reitillä on päädytty
      */
     public Node getParent() {
-<span class="fc" id="L68">        return parent;</span>
+<span class="fc" id="L102">        return parent;</span>
     }
 
     /**
@@ -74,8 +108,8 @@ public class Node implements Comparable&lt;Node&gt; {
      * @param parent Node, josta reitillä on tämänhetkiseen nodeen päädytty
      */
     public void setParent(Node parent) {
-<span class="fc" id="L77">        this.parent = parent;</span>
-<span class="fc" id="L78">    }</span>
+<span class="fc" id="L111">        this.parent = parent;</span>
+<span class="fc" id="L112">    }</span>
 
     /**
      *
@@ -83,7 +117,7 @@ public class Node implements Comparable&lt;Node&gt; {
      * tai arvioitu kustannus nodeen siirtymisellä reitillä on
      */
     public int getCost() {
-<span class="fc" id="L86">        return cost;</span>
+<span class="fc" id="L120">        return cost;</span>
     }
 
     /**
@@ -93,15 +127,15 @@ public class Node implements Comparable&lt;Node&gt; {
      * @param cost noden arvo
      */
     public void setCost(int cost) {
-<span class="fc" id="L96">        this.cost = cost;</span>
-<span class="fc" id="L97">    }</span>
+<span class="fc" id="L130">        this.cost = cost;</span>
+<span class="fc" id="L131">    }</span>
 
     /**
      *
      * @return onko nodeen mahdollista siirtyä
      */
     public boolean isPassable() {
-<span class="fc" id="L104">        return passable;</span>
+<span class="fc" id="L138">        return passable;</span>
     }
 
     /**
@@ -112,8 +146,8 @@ public class Node implements Comparable&lt;Node&gt; {
      * reittiä etsiessä
      */
     public void setPassable(boolean passable) {
-<span class="fc" id="L115">        this.passable = passable;</span>
-<span class="fc" id="L116">    }</span>
+<span class="fc" id="L149">        this.passable = passable;</span>
+<span class="fc" id="L150">    }</span>
 
     /**
      * Metodi vertaa nodeja cost-attribuutin perusteella.
@@ -123,46 +157,63 @@ public class Node implements Comparable&lt;Node&gt; {
      */
     @Override
     public int compareTo(Node t) {
-<span class="fc" id="L126">        return this.cost - t.getCost();</span>
+<span class="fc" id="L160">        return this.cost - t.getCost();</span>
     }
 
-    protected int getHeapIndex() {
-<span class="fc" id="L130">        return heapIndex;</span>
+    /**
+     * 
+     * @return Noden indeksi binäärikeossa
+     */
+    public int getHeapIndex() {
+<span class="fc" id="L168">        return heapIndex;</span>
     }
 
-    protected void setHeapIndex(int heapIndex) {
-<span class="fc" id="L134">        this.heapIndex = heapIndex;</span>
-<span class="fc" id="L135">    }</span>
+    /**
+     * 
+     * @param heapIndex Noden indeksi binäärikeossa
+     */
+    public void setHeapIndex(int heapIndex) {
+<span class="fc" id="L176">        this.heapIndex = heapIndex;</span>
+<span class="fc" id="L177">    }</span>
 
+    /**
+     *
+     * @return FNode, johon Nodessa on viite
+     */
     public FNode getFNode() {
-<span class="fc" id="L138">        return fiboNode;</span>
+<span class="fc" id="L184">        return fiboNode;</span>
     }
 
+    /**
+     * Asettaa viitteen FNodeen, johon Node on lisätty
+     *
+     * @param fiboNode FNode johon Node on lisätty
+     */
     public void setFNode(FNode fiboNode) {
-<span class="fc" id="L142">        this.fiboNode = fiboNode;</span>
-<span class="fc" id="L143">    }</span>
+<span class="fc" id="L193">        this.fiboNode = fiboNode;</span>
+<span class="fc" id="L194">    }</span>
 
     @Override
     public boolean equals(Object obj) {
-<span class="pc bpc" id="L147" title="1 of 2 branches missed.">        if (obj == null) {</span>
-<span class="nc" id="L148">            return false;</span>
+<span class="pc bpc" id="L198" title="1 of 2 branches missed.">        if (obj == null) {</span>
+<span class="nc" id="L199">            return false;</span>
         }
-<span class="pc bpc" id="L150" title="1 of 2 branches missed.">        if (getClass() != obj.getClass()) {</span>
-<span class="nc" id="L151">            return false;</span>
+<span class="pc bpc" id="L201" title="1 of 2 branches missed.">        if (getClass() != obj.getClass()) {</span>
+<span class="nc" id="L202">            return false;</span>
         }
-<span class="fc" id="L153">        final Node other = (Node) obj;</span>
-<span class="fc bfc" id="L154" title="All 2 branches covered.">        if (this.x != other.x) {</span>
-<span class="fc" id="L155">            return false;</span>
+<span class="fc" id="L204">        final Node other = (Node) obj;</span>
+<span class="fc bfc" id="L205" title="All 2 branches covered.">        if (this.x != other.x) {</span>
+<span class="fc" id="L206">            return false;</span>
         }
-<span class="fc bfc" id="L157" title="All 2 branches covered.">        if (this.y != other.y) {</span>
-<span class="fc" id="L158">            return false;</span>
+<span class="fc bfc" id="L208" title="All 2 branches covered.">        if (this.y != other.y) {</span>
+<span class="fc" id="L209">            return false;</span>
         }
-<span class="fc" id="L160">        return true;</span>
+<span class="fc" id="L211">        return true;</span>
     }
 
     @Override
     public String toString() {
-<span class="nc" id="L165">        return nodeId + &quot; (&quot; + x + &quot;, &quot; + y + &quot;) cost: &quot; + cost;</span>
+<span class="nc" id="L216">        return nodeId + &quot; (&quot; + x + &quot;, &quot; + y + &quot;) cost: &quot; + cost;</span>
     }
 
 }

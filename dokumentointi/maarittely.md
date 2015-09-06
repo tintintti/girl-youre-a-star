@@ -18,8 +18,9 @@ Lyhimmän reitin etsiminen labyrintissä kahden pisteen välillä Dijkstran ja A
 - reitin aloitus- ja lopetuspisteet
 
 **Aika- ja tilavaativuustavoitteet**
-- *A**
- - aikavaativuus: sama kuin Dijkstran algoritmissa eli O((|E|+|V|)log|V|)
+- *A* ja Dijkstra*
+ - aikavaativuus: A*- ja Dijkstran algoritmissa sama eli O((|E|+|V|)log|V|)
+   - Fibonacci-kekoa käytettäessä tasoitettu aikavaativuus O(|E|+|V|log|V|)
  - tilavaativuus: O(|V|)
 - *Linkitetty lista*
  - tilavaativuus: O(|V|+|E|)

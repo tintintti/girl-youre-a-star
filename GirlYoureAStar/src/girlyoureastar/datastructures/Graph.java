@@ -111,23 +111,4 @@ public class Graph {
         this.map = map;
         this.mapToNodes();
     }
-
-    @Override
-    public String toString() {
-        StringBuilder s = new StringBuilder();
-
-        for (Node[] node : nodes) {
-            for (Node n : node) {
-                if (n.isPassable()) {
-                    s.append(n.getCostOfMovement());
-                } else {
-                    s.append('#');
-                }
-            }
-            s.append("\n");
-        }
-
-        return s.toString();
-    }
-
 }

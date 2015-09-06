@@ -114,4 +114,37 @@ public class AstarTest {
         assertEquals(20, finish.getCost());
     }
     
+    @Test
+    public void findsShortestRouteWithBinaryHeapInAMapWithWeightedNodes() {
+        int[][] map = new int[11][21];
+
+        map[1][0] = 9;
+        map[1][1] = 9;
+        map[1][2] = 9;
+        map[1][4] = 9;
+        map[3][4] = 9;
+        map[3][3] = 9;
+        map[3][2] = 9;
+        map[3][0] = 9;
+        map[4][0] = 9;
+        map[4][1] = 3;
+        map[3][1] = 3;
+        map[4][2] = 9;
+        map[5][5] = 9;
+        map[6][5] = 9;
+
+        Graph g = new Graph(map);
+        
+        astar = new Astar(g, false);
+        
+        Node[][] nodes1 = g.getNodes();
+
+        start = nodes1[0][0];
+        finish = nodes1[10][0];
+        
+        Stack s = astar.findRoute(start, finish);
+        
+        assertEquals(20, finish.getCost());
+    }
+    
 }

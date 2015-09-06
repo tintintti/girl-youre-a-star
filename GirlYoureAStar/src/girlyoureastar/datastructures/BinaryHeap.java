@@ -27,10 +27,6 @@ public class BinaryHeap implements MinHeap {
         return 2 * i + 1;
     }
 
-    private boolean isLeaf(int i) {
-        return i >= (heapSize / 2) && i <= heapSize;
-    }
-
     private void heapify(int i) {
         int left = left(i);
         int right = right(i);

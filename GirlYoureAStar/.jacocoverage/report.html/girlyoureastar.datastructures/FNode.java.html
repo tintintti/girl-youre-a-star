@@ -1,159 +1,220 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>FNode.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;GirlYoureAStar&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">girlyoureastar.datastructures</a> &gt; <span class="el_source">FNode.java</span></div><h1>FNode.java</h1><pre class="source lang-java linenums">
-package girlyoureastar.datastructures;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>FNode.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;GirlYoureAStar&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">girlyoureastar.datastructures</a> &gt; <span class="el_source">FNode.java</span></div><h1>FNode.java</h1><pre class="source lang-java linenums">package girlyoureastar.datastructures;
 
 /**
  *
- * @author tintti
+ * Luokkaan tallennetaan yksittäisen Fibonacci-keon alkion tiedot. Luokka
+ * tarjoaa metodit Fibonacci-keon solmun siirtämiseen pois sen parent-solmun
+ * alta ja keon root-listaan.
+ *
  */
 public class FNode {
-    private Node node;
+
+    private final Node node;
     private int key;
-    
+
     private FNode parent;
     private FNode child;
     private FNode right;
     private FNode left;
-    
+
     private int degree;
     private boolean marked;
 
-<span class="fc" id="L20">    public FNode(Node node) {</span>
-<span class="fc" id="L21">        this.node = node;</span>
-<span class="fc" id="L22">        key = node.getCost();</span>
-<span class="fc" id="L23">        node.setFNode(this);</span>
-<span class="fc" id="L24">        right = this;</span>
-<span class="fc" id="L25">        left = this;</span>
-<span class="fc" id="L26">    }</span>
-    
+<span class="fc" id="L23">    public FNode(Node node) {</span>
+<span class="fc" id="L24">        this.node = node;</span>
+<span class="fc" id="L25">        key = node.getCost();</span>
+<span class="fc" id="L26">        node.setFNode(this);</span>
+<span class="fc" id="L27">        right = this;</span>
+<span class="fc" id="L28">        left = this;</span>
+<span class="fc" id="L29">    }</span>
+
+    /**
+     * Metodi tarvittaessa merkitsee FNoden lapsen menettäneeksi tai leikkaa sen
+     * pois parent-solmustaan root-listaan.
+     *
+     * @param min root-listan solmu
+     */
     public void cascadingCut(FNode min) {
-<span class="fc" id="L29">        FNode z = parent;</span>
-        
-<span class="pc bpc" id="L31" title="1 of 2 branches missed.">        if (z != null) {</span>
-<span class="pc bpc" id="L32" title="1 of 2 branches missed.">            if (marked) {</span>
-<span class="nc" id="L33">                z.cut(this, min);</span>
-<span class="nc" id="L34">                z.cascadingCut(min);</span>
+<span class="fc" id="L38">        FNode z = parent;</span>
+
+<span class="fc bfc" id="L40" title="All 2 branches covered.">        if (z != null) {</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">            if (marked) {</span>
+<span class="fc" id="L42">                z.cut(this, min);</span>
+<span class="fc" id="L43">                z.cascadingCut(min);</span>
             } else {
-<span class="fc" id="L36">                marked = true;</span>
+<span class="fc" id="L45">                marked = true;</span>
             }
         }
-<span class="fc" id="L39">    }</span>
-    
+<span class="fc" id="L48">    }</span>
+
+    /**
+     * Metodi poistaa annetun solmun tämän solmun lapsien listalta ja siirtää
+     * sen Fibonacci-keon root-listalle.
+     *
+     * @param childToRemove poistettava child-solmu
+     * @param min root-listan solmu
+     */
     public void cut(FNode childToRemove, FNode min) {
-        
-<span class="fc" id="L43">        childToRemove.left.right = childToRemove.right;</span>
-<span class="fc" id="L44">        childToRemove.right.left = childToRemove.left;</span>
-<span class="fc" id="L45">        degree--;</span>
-        
-<span class="pc bpc" id="L47" title="1 of 2 branches missed.">        if (degree == 0) {</span>
-<span class="fc" id="L48">            child = null;</span>
-<span class="nc bnc" id="L49" title="All 2 branches missed.">        } else if (child == childToRemove) {</span>
-<span class="nc" id="L50">            child = childToRemove.right;</span>
+
+<span class="fc" id="L59">        childToRemove.left.right = childToRemove.right;</span>
+<span class="fc" id="L60">        childToRemove.right.left = childToRemove.left;</span>
+<span class="fc" id="L61">        degree--;</span>
+
+<span class="fc bfc" id="L63" title="All 2 branches covered.">        if (degree == 0) {</span>
+<span class="fc" id="L64">            child = null;</span>
+<span class="pc bpc" id="L65" title="1 of 2 branches missed.">        } else if (child == childToRemove) {</span>
+<span class="fc" id="L66">            child = childToRemove.right;</span>
         }
-        
-<span class="fc" id="L53">        childToRemove.right = min;</span>
-<span class="fc" id="L54">        childToRemove.left = min.left;</span>
-<span class="fc" id="L55">        min.left = childToRemove;</span>
-<span class="fc" id="L56">        childToRemove.left.right = childToRemove;</span>
-        
-<span class="fc" id="L58">        childToRemove.parent = null;</span>
-        
-<span class="fc" id="L60">        childToRemove.marked = false;</span>
-        
-<span class="fc" id="L62">    }</span>
-    
+
+<span class="fc" id="L69">        childToRemove.right = min;</span>
+<span class="fc" id="L70">        childToRemove.left = min.left;</span>
+<span class="fc" id="L71">        min.left = childToRemove;</span>
+<span class="fc" id="L72">        childToRemove.left.right = childToRemove;</span>
+
+<span class="fc" id="L74">        childToRemove.parent = null;</span>
+
+<span class="fc" id="L76">        childToRemove.marked = false;</span>
+
+<span class="fc" id="L78">    }</span>
+
     /**
      * Metodi tekee tästä solmusta annetun solmun lapsen.
-     * 
+     *
      * @param parent uusi parent-solmu
      */
     public void link(FNode parent) {
-<span class="fc" id="L70">        left.right = right;</span>
-<span class="fc" id="L71">        right.left = left;</span>
-        
-<span class="fc" id="L73">        this.parent = parent;</span>
-<span class="fc bfc" id="L74" title="All 2 branches covered.">        if (parent.child == null) {</span>
-<span class="fc" id="L75">            parent.child = this;</span>
-<span class="fc" id="L76">            right = this;</span>
-<span class="fc" id="L77">            left = this;</span>
+<span class="fc" id="L86">        left.right = right;</span>
+<span class="fc" id="L87">        right.left = left;</span>
+
+<span class="fc" id="L89">        this.parent = parent;</span>
+<span class="fc bfc" id="L90" title="All 2 branches covered.">        if (parent.child == null) {</span>
+<span class="fc" id="L91">            parent.child = this;</span>
+<span class="fc" id="L92">            right = this;</span>
+<span class="fc" id="L93">            left = this;</span>
         } else {
-<span class="fc" id="L79">            left = parent.child;</span>
-<span class="fc" id="L80">            right = parent.child.right;</span>
-<span class="fc" id="L81">            parent.child.right = this;</span>
-<span class="fc" id="L82">            right.left = this;</span>
+<span class="fc" id="L95">            left = parent.child;</span>
+<span class="fc" id="L96">            right = parent.child.right;</span>
+<span class="fc" id="L97">            parent.child.right = this;</span>
+<span class="fc" id="L98">            right.left = this;</span>
         }
-        
-<span class="fc" id="L85">        parent.degree++;</span>
-        
-<span class="fc" id="L87">        marked = false;</span>
-<span class="fc" id="L88">    }</span>
 
+<span class="fc" id="L101">        parent.degree++;</span>
+
+<span class="fc" id="L103">        marked = false;</span>
+<span class="fc" id="L104">    }</span>
+
+    /**
+     *
+     * @return Node, joka solmuun on tallennettu
+     */
     public Node getNode() {
-<span class="fc" id="L91">        return node;</span>
+<span class="fc" id="L111">        return node;</span>
     }
 
-    public void setNode(Node node) {
-<span class="nc" id="L95">        this.node = node;</span>
-<span class="nc" id="L96">        key = node.getCost();</span>
-<span class="nc" id="L97">    }</span>
-
+    /**
+     *
+     * @return solmun avain, sama kuin solmuun talletetun Noden cost
+     */
     public int getKey() {
-<span class="fc" id="L100">        return key;</span>
+<span class="fc" id="L119">        return key;</span>
     }
 
+    /**
+     *
+     * @param key solmun avain, sama kuin solmuun talletetun Noden cost
+     */
     public void setKey(int key) {
-<span class="fc" id="L104">        this.key = key;</span>
-<span class="fc" id="L105">        node.setCost(key);</span>
-<span class="fc" id="L106">    }</span>
+<span class="fc" id="L127">        this.key = key;</span>
+<span class="fc" id="L128">        node.setCost(key);</span>
+<span class="fc" id="L129">    }</span>
 
+    /**
+     *
+     * @return solmun parent-solmu
+     */
     public FNode getParent() {
-<span class="fc" id="L109">        return parent;</span>
+<span class="fc" id="L136">        return parent;</span>
     }
 
+    /**
+     *
+     * @param parent solmulle asetettava parent-solmu
+     */
     public void setParent(FNode parent) {
-<span class="fc" id="L113">        this.parent = parent;</span>
-<span class="fc" id="L114">    }</span>
+<span class="fc" id="L144">        this.parent = parent;</span>
+<span class="fc" id="L145">    }</span>
 
+    /**
+     *
+     * @return solmun ensimmäinen lapsi
+     */
     public FNode getChild() {
-<span class="fc" id="L117">        return child;</span>
+<span class="fc" id="L152">        return child;</span>
     }
 
+    /**
+     *
+     * @param child solmun ensimmäinen lapsi
+     */
     public void setChild(FNode child) {
-<span class="nc" id="L121">        this.child = child;</span>
-<span class="nc" id="L122">    }</span>
+<span class="nc" id="L160">        this.child = child;</span>
+<span class="nc" id="L161">    }</span>
 
+    /**
+     * @return solmusta seuraava solmu
+     */
     public FNode getRight() {
-<span class="fc" id="L125">        return right;</span>
+<span class="fc" id="L167">        return right;</span>
     }
 
+    /**
+     *
+     * @param right solmusta seuraava solmu
+     */
     public void setRight(FNode right) {
-<span class="fc" id="L129">        this.right = right;</span>
-<span class="fc" id="L130">    }</span>
+<span class="fc" id="L175">        this.right = right;</span>
+<span class="fc" id="L176">    }</span>
 
+    /**
+     *
+     * @return solmua edeltävä solmu
+     */
     public FNode getLeft() {
-<span class="fc" id="L133">        return left;</span>
+<span class="fc" id="L183">        return left;</span>
     }
 
+    /**
+     *
+     * @param left solmua edeltävä solmu
+     */
     public void setLeft(FNode left) {
-<span class="fc" id="L137">        this.left = left;</span>
-<span class="fc" id="L138">    }</span>
+<span class="fc" id="L191">        this.left = left;</span>
+<span class="fc" id="L192">    }</span>
 
+    /**
+     *
+     * @return solmun lapsien määrä
+     */
     public int getDegree() {
-<span class="fc" id="L141">        return degree;</span>
+<span class="fc" id="L199">        return degree;</span>
     }
 
-    public void setDegree(int degree) {
-<span class="nc" id="L145">        this.degree = degree;</span>
-<span class="nc" id="L146">    }</span>
-
+    /**
+     *
+     * @return onko solmulta poistettu lapsia viimeisen cut-operaation jälkeen
+     */
     public boolean isMarked() {
-<span class="nc" id="L149">        return marked;</span>
+<span class="fc" id="L207">        return marked;</span>
     }
 
+    /**
+     *
+     * @param marked onko solmulta poistettu lapsia viimeisen cut-operaation
+     * jälkeen
+     */
     public void setMarked(boolean marked) {
-<span class="nc" id="L153">        this.marked = marked;</span>
-<span class="nc" id="L154">    }</span>
-    
-    
-    
+<span class="fc" id="L216">        this.marked = marked;</span>
+<span class="fc" id="L217">    }</span>
+
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

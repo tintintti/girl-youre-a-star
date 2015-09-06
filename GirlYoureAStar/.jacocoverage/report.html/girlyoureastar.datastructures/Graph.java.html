@@ -111,24 +111,5 @@ public class Graph {
 <span class="nc" id="L111">        this.map = map;</span>
 <span class="nc" id="L112">        this.mapToNodes();</span>
 <span class="nc" id="L113">    }</span>
-
-    @Override
-    public String toString() {
-<span class="nc" id="L117">        StringBuilder s = new StringBuilder();</span>
-
-<span class="nc bnc" id="L119" title="All 2 branches missed.">        for (Node[] node : nodes) {</span>
-<span class="nc bnc" id="L120" title="All 2 branches missed.">            for (Node n : node) {</span>
-<span class="nc bnc" id="L121" title="All 2 branches missed.">                if (n.isPassable()) {</span>
-<span class="nc" id="L122">                    s.append(n.getCostOfMovement());</span>
-                } else {
-<span class="nc" id="L124">                    s.append('#');</span>
-                }
-            }
-<span class="nc" id="L127">            s.append(&quot;\n&quot;);</span>
-        }
-
-<span class="nc" id="L130">        return s.toString();</span>
-    }
-
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

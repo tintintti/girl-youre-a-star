@@ -61,6 +61,10 @@ public class FibonacciHeap implements MinHeap {
         size++;
     }
 
+    /**
+     * 
+     * @return onko keko tyhjä
+     */
     @Override
     public boolean isEmpty() {
         return minNode == null;

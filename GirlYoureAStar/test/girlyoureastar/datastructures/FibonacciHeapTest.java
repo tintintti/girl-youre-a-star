@@ -130,7 +130,7 @@ public class FibonacciHeapTest {
     }
 
     @Test
-    public void delMinReturnsAllNodesInOrderAfterMultipleDecKeys() {
+    public void testDelMinAfterMultipleDecKeys() {
         heap.insert(n1);
         heap.insert(n2);
         heap.insert(n3);
@@ -151,4 +151,32 @@ public class FibonacciHeapTest {
         checkAllNodesAreDeletedInCorrectOrder();
     }
 
+    @Test
+    public void testDecKey() {
+        heap.insert(n1);
+        
+        heap.decreaseKey(n1, 5);
+        
+        assertEquals(5, n1.getCost());
+    }
+    
+    @Test
+    public void decKeyDoesntIncreaseKey() {
+        heap.insert(n1);
+        heap.decreaseKey(n1, 50);
+        
+        assertEquals(10, n1.getCost());
+    }
+    
+    @Test
+    public void decKeyAddsNodeToHeapIfItIsntThere() {
+        heap.insert(n1);
+        heap.insert(n2);
+        heap.delMin();
+        
+        heap.decreaseKey(n1, 5);
+        
+        assertEquals(heap.delMin(), n1);
+    }
+    
 }

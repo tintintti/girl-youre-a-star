@@ -28,34 +28,68 @@ public class Node implements Comparable<Node> {
         this.passable = true;
     }
 
+    /**
+     *
+     * @return kuinka paljon solmuun siirtyminen verkossa maksaa, eli solmuun
+     * kulkevien kaarien kaaripaino
+     */
     public int getCostOfMovement() {
         return costOfMovement;
     }
 
+    /**
+     *
+     * @param costOfMovement kuinka paljon solmuun siirtyminen verkossa maksaa,
+     * eli solmuun kulkevien kaarien kaaripaino
+     */
     public void setCostOfMovement(int costOfMovement) {
         this.costOfMovement = costOfMovement;
     }
 
+    /**
+     * 
+     * @return Noden yksilöllinen id-numero
+     */
     public int getNodeId() {
         return nodeId;
     }
 
+    /**
+     * 
+     * @param nodeId Noden yksilöllinen id-numero
+     */
     public void setNodeId(int nodeId) {
         this.nodeId = nodeId;
     }
 
+    /**
+     *
+     * @return rivin numero, jolla Node kartalla on
+     */
     public int getX() {
         return x;
     }
 
+    /**
+     *
+     * @param x rivin numero, jolla Node kartalla on
+     */
     public void setX(int x) {
         this.x = x;
     }
 
+    /**
+     *
+     * @return sarakkeen numero, jolla Node kartalla on
+     */
     public int getY() {
         return y;
     }
 
+    /**
+     *
+     * @param y sarakkeen numero, jolla Node kartalla on
+     */
     public void setY(int y) {
         this.y = y;
     }
@@ -126,18 +160,35 @@ public class Node implements Comparable<Node> {
         return this.cost - t.getCost();
     }
 
-    protected int getHeapIndex() {
+    /**
+     * 
+     * @return Noden indeksi binäärikeossa
+     */
+    public int getHeapIndex() {
         return heapIndex;
     }
 
-    protected void setHeapIndex(int heapIndex) {
+    /**
+     * 
+     * @param heapIndex Noden indeksi binäärikeossa
+     */
+    public void setHeapIndex(int heapIndex) {
         this.heapIndex = heapIndex;
     }
 
+    /**
+     *
+     * @return FNode, johon Nodessa on viite
+     */
     public FNode getFNode() {
         return fiboNode;
     }
 
+    /**
+     * Asettaa viitteen FNodeen, johon Node on lisätty
+     *
+     * @param fiboNode FNode johon Node on lisätty
+     */
     public void setFNode(FNode fiboNode) {
         this.fiboNode = fiboNode;
     }

@@ -2,11 +2,10 @@ package girlyoureastar;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Arrays;
 import java.util.Scanner;
 
 /**
- *
+ * Luokka tarjoaa metodin kartan lukemiseen tekstitiedostosta
  *
  */
 public class MapFileReader {
@@ -23,8 +22,15 @@ public class MapFileReader {
         this.columns = Integer.MAX_VALUE;
     }
 
+    /**
+     * Metodi lukee tekstitiedostosta kartan ja muuntaa sen kaksiuloitteiseksi
+     * kokonaislukutaulukoksi
+     *
+     * @return kartta kaksiuloitteisena taulukkona
+     * @throws FileNotFoundException
+     */
     public int[][] readMap() throws FileNotFoundException {
-        
+
         while (mapFile.hasNext()) {
             lines++;
             String s = mapFile.nextLine();
@@ -33,9 +39,9 @@ public class MapFileReader {
             }
         }
         mapFile.close();
-        
+
         int[][] map = new int[lines][columns];
-        
+
         mapFile = new Scanner(new File(filename));
         int i = 0;
         while (mapFile.hasNextLine()) {
@@ -47,7 +53,7 @@ public class MapFileReader {
         }
 
         mapFile.close();
-        
+
         return map;
     }
 
